@@ -4,7 +4,11 @@
    to Liquid without reworking content. Everything marked `sample` is placeholder. */
 (function () {
   const IMG = (window.MIN_ASSET_BASE || "../assets/img/");
-  const img = (name, alt, kind, focus) => ({ src: IMG + name + ".webp", small: IMG + name + "-s.webp", alt, kind, focus: focus || "50% 40%" });
+  const img = (name, alt, kind, focus) => ({
+    src: IMG + name + ".webp", small: IMG + name + "-s.webp",
+    large: IMG + name + (kind === "print" ? "-hd.webp" : "-l.webp"),
+    alt, kind, focus: focus || "50% 40%",
+  });
 
   const SIZES = ["2–3Y", "3–4Y", "4–5Y", "5–6Y"];
 
@@ -215,5 +219,28 @@
   const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-  window.MIN = { products, SIZES, sizeChart, facts, createBag, onRoute, parseRoute, reducedMotion, esc, find: (h) => products.find((p) => p.handle === h) };
+  // ---- Motion helpers -------------------------------------------------
+  // Page changes run inside a View Transition where supported, so the old and new
+  // pages cross-fade and a tagged photo can travel between them. Elsewhere, instant.
+  let vtNext = null, firstPaint = true;
+  const markShared = (el) => { vtNext = el; };
+  function transition(update) {
+    const from = vtNext; vtNext = null;
+    if (firstPaint || !document.startViewTransition || reducedMotion()) { firstPaint = false; update(false); return; }
+    if (from && from.isConnected) from.style.viewTransitionName = "shared";
+    const t = document.startViewTransition(() => {
+      if (from) from.style.viewTransitionName = "";
+      update(!!(from && from.isConnected));
+    });
+    t.finished.finally(() => { document.querySelectorAll('[style*="view-transition-name"]').forEach((e) => (e.style.viewTransitionName = "")); });
+  }
+  // Wrap each word of a headline so it can rise into place once. Text stays readable without JS.
+  function splitWords(el) {
+    if (!el || el.dataset.split) return;
+    el.dataset.split = "1";
+    el.innerHTML = el.innerHTML.split(/(<[^>]+>|\s+)/).map((t) => (!t || /^\s+$/.test(t) || t.startsWith("<")) ? t : `<span class="w"><span>${t}</span></span>`).join("");
+    el.querySelectorAll(".w > span").forEach((s, i) => s.style.setProperty("--i", i));
+  }
+
+  window.MIN = { products, SIZES, sizeChart, facts, createBag, onRoute, parseRoute, reducedMotion, esc, transition, markShared, splitWords, find: (h) => products.find((p) => p.handle === h) };
 })();

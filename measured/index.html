@@ -10,13 +10,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: a left-aligned 12-column spec sheet. Facts first, photographs square and consistent, one live fit tool as the signature. */
+/* Layout: an asymmetric product stage. The real garment is the hero, measured live; a sticky anatomy tour zooms into each detail as you scroll. */
 :root{
-  --bg:#FFFFFF; --ink:#16171A; --muted:#5F6168; --line:#E5E4E0; --soft:#F6F5F2; --peach:#F1A07A; --measure:#2F5F8F;
+  --bg:#FFFFFF; --ink:#141518; --muted:#5E6067; --line:#E6E5E1; --soft:#F5F4F1; --measure:#2F62D6;
   --sans:"Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --s-1:.8125rem; --s0:1.0625rem; --s1:1.25rem; --s2:clamp(1.5rem,1.2rem + 1.2vw,2.125rem); --s3:clamp(2.25rem,1.4rem + 3.6vw,4.5rem);
-  --ease:cubic-bezier(.25,.8,.25,1);
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --s-1:.8125rem; --s0:1.0625rem; --s1:1.25rem; --s2:clamp(1.6rem,1.2rem + 1.6vw,2.6rem); --s3:clamp(2.6rem,1.4rem + 5vw,6.4rem);
+  --ease:cubic-bezier(.2,.8,.2,1); --spring:cubic-bezier(.34,1.4,.5,1);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-padding-top:80px}
@@ -25,172 +25,211 @@ img{max-width:100%;display:block}
 a{color:inherit}
 button,input,textarea{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--measure);outline-offset:2px}
-h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.02em;line-height:1.05;text-wrap:balance}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.025em;line-height:1.02;text-wrap:balance}
 p{margin:0}
-.wrap{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));max-width:1280px;margin-inline:auto}
-.mono{font-family:var(--mono);font-size:var(--s-1);letter-spacing:.02em}
+.wrap{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));max-width:1320px;margin-inline:auto}
 .label{font-family:var(--mono);font-size:var(--s-1);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.mono{font-family:var(--mono)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:0 24px}
 
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
-.notice{border-bottom:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.notice{border-bottom:1px solid var(--line);font-size:.85rem;color:var(--muted);view-transition-name:notice}
 .notice .wrap{display:flex;justify-content:space-between;gap:12px;padding-block:8px;flex-wrap:wrap}
 .notice a{color:var(--ink)}
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.6) blur(16px);border-bottom:1px solid rgba(0,0,0,.06);view-transition-name:top}
 .top .wrap{display:flex;align-items:center;gap:32px;min-height:60px}
 .logo img{height:20px;width:auto}
-.nav{display:flex;gap:4px;margin-left:auto}
-.nav a{text-decoration:none;padding:10px 12px;border-radius:8px;font-size:.98rem;color:var(--muted)}
+.nav{display:flex;gap:2px;margin-left:auto}
+.nav a{text-decoration:none;padding:10px 14px;border-radius:10px;font-size:.96rem;color:var(--muted);transition:color .2s,background .2s}
 .nav a:hover{color:var(--ink)}
 .nav a[aria-current="page"]{color:var(--ink);background:var(--soft)}
-.tbtn{min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:22px;background:var(--bg);cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:.98rem}
+.tbtn{min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:22px;background:var(--bg);cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-size:.96rem;transition:border-color .2s}
+.tbtn:hover{border-color:var(--ink)}
 .tbtn .n{font-family:var(--mono);font-size:.8rem;font-variant-numeric:tabular-nums;min-width:1.2em;text-align:center}
-.tbtn.bump{animation:bump .45s var(--ease)}
-@keyframes bump{50%{transform:scale(1.06);border-color:var(--ink)}}
+.tbtn.bump{animation:bump .5s var(--spring)}
+@keyframes bump{40%{transform:scale(1.1);border-color:var(--measure)}}
 #menuBtn{display:none}
 @media (max-width:900px){.nav{display:none}#menuBtn{display:inline-flex;margin-left:auto}.top .wrap{gap:10px}}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;white-space:nowrap;border-radius:26px;border:0;background:var(--ink);color:#fff;font-weight:500;text-decoration:none;cursor:pointer;transition:background .15s,transform .15s}
-.btn:hover{background:#000}
-.btn:active{transform:scale(.98)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:26px;border:0;background:var(--ink);color:#fff;font-weight:500;text-decoration:none;cursor:pointer;white-space:nowrap;transition:transform .3s var(--spring),background .2s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px -12px rgba(0,0,0,.5)}
+.btn:active{transform:scale(.97)}
 .btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
 .btn.line:hover{box-shadow:inset 0 0 0 1px var(--ink)}
-.btn[disabled]{background:var(--line);color:var(--muted);cursor:not-allowed}
+.btn[disabled]{background:var(--line);color:var(--muted);cursor:not-allowed;transform:none;box-shadow:none}
+.btn .arr{transition:transform .3s var(--ease)}
+.btn:hover .arr{transform:translateX(3px)}
 .u{text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--line)}
 .u:hover{text-decoration-color:currentColor}
 main{display:block;min-height:60vh}
-main.enter{animation:fade .25s var(--ease)}
-@keyframes fade{from{opacity:0}}
 
-/* Segmented control */
-.seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;position:relative;background:var(--soft);border-radius:12px;padding:4px;isolation:isolate}
-.seg button{position:relative;z-index:1;min-height:44px;padding:0 14px;border:0;background:none;border-radius:9px;cursor:pointer;font-family:var(--mono);font-size:.9rem;white-space:nowrap;color:var(--muted);transition:color .2s}
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em;margin-bottom:-.06em}
+.w>span{display:inline-block;animation:rise .9s var(--ease) both;animation-delay:calc(var(--i) * 45ms + 60ms)}
+@keyframes rise{from{transform:translateY(100%)}}
+
+.seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;position:relative;background:var(--soft);border-radius:14px;padding:4px;isolation:isolate}
+.seg button{position:relative;z-index:1;min-height:46px;padding:0 16px;border:0;background:none;border-radius:10px;cursor:pointer;font-family:var(--mono);font-size:.92rem;white-space:nowrap;color:var(--muted);transition:color .25s}
 .seg button[aria-checked="true"],.seg button[aria-pressed="true"]{color:var(--ink)}
-.seg .thumb{position:absolute;z-index:0;top:4px;bottom:4px;left:4px;border-radius:9px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08),0 2px 8px rgba(0,0,0,.06);transition:transform .3s var(--ease),width .3s var(--ease)}
+.seg .thumb{position:absolute;z-index:0;top:4px;bottom:4px;left:4px;border-radius:10px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.08);transition:transform .45s var(--spring),width .45s var(--spring)}
 .seg.sans button{font-family:var(--sans);font-size:.95rem}
 .seg.full{display:grid;width:100%}
 
-/* Hero */
-.hero{padding-block:clamp(36px,6vw,88px) clamp(32px,5vw,64px);border-bottom:1px solid var(--line)}
-.hero h1{font-size:var(--s3);grid-column:1/8;letter-spacing:-.035em}
-.hero h1 span{color:var(--muted)}
-.hero .intro{grid-column:1/7;margin-top:28px;font-size:var(--s1);color:var(--muted);max-width:40ch}
-.hero .ctas{grid-column:1/8;display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
-.fitcard{grid-column:8/13;grid-row:1/5;align-self:start;border:1px solid var(--line);border-radius:20px;padding:22px;display:grid;gap:18px;background:var(--bg)}
-.fitcard h2{font-size:var(--s1);letter-spacing:-.01em}
-.fit-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-@media (max-width:960px){.hero h1,.hero .intro,.hero .ctas{grid-column:1/-1}.fitcard{grid-column:1/-1;grid-row:auto;margin-top:36px}}
-.diagram{background:var(--soft);border-radius:14px;padding:12px 8px 6px}
-.diagram svg{width:100%;height:auto;display:block;overflow:visible}
-.diagram .g{fill:#fff;stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
-.diagram .dim{stroke:var(--measure);stroke-width:1.2;fill:none}
-.diagram .tick{stroke:var(--measure);stroke-width:1.2}
-.diagram text{font-family:var(--mono);font-size:17px;font-weight:500;fill:var(--measure)}
-.diagram .scale{transition:transform .45s var(--ease);transform-box:fill-box;transform-origin:50% 0}
+.odo{display:inline-flex;font-family:var(--mono);font-variant-numeric:tabular-nums;line-height:1;height:1em;overflow:hidden;vertical-align:baseline}
+.odo .col{display:flex;flex-direction:column;transition:transform .7s var(--spring)}
+.odo .col span{height:1em;display:block}
+
+/* Hero stage */
+.hero{padding-block:clamp(28px,5vw,72px) clamp(48px,7vw,96px);overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,4vw,64px);align-items:center}
+.hero h1{font-size:var(--s3);letter-spacing:-.045em;line-height:.95}
+.hero h1 .dim{color:#9A9CA3}
+.hero .intro{margin-top:28px;font-size:var(--s1);color:var(--muted);max-width:36ch}
+.hero .ctas{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.stage{position:relative;display:grid;gap:22px;justify-items:center}
+.garment{position:relative;width:min(100%,540px,62vh);aspect-ratio:1;transform:scale(var(--s,1));transform-origin:50% 0;transition:transform .8s var(--spring);animation:stagein 1.1s var(--ease) both .1s}
+@keyframes stagein{from{opacity:0;transform:translateY(30px) scale(.94)}}
+.garment img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.garment svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.garment .dl{stroke:var(--measure);stroke-width:2;vector-effect:non-scaling-stroke;stroke-dasharray:400;stroke-dashoffset:400;animation:draw 1.2s var(--ease) forwards .7s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.pill{position:absolute;transform:translate(-50%,-50%) scale(calc(1 / var(--s,1)));background:var(--measure);color:#fff;font-family:var(--mono);font-size:.92rem;font-weight:500;border-radius:999px;padding:6px 12px;white-space:nowrap;box-shadow:0 8px 20px -8px rgba(47,98,214,.6);animation:pop .6s var(--spring) both 1.2s;transition:transform .8s var(--spring)}
+@keyframes pop{from{opacity:0;transform:translate(-50%,-50%) scale(.6)}}
+.stage-ui{width:min(100%,560px);display:grid;gap:16px;position:relative;z-index:2}
 .readout{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line)}
-.readout div{padding:12px 0 0}
-.readout div+div{padding-left:14px;border-left:1px solid var(--line)}
-.readout b{display:block;font-family:var(--mono);font-weight:500;font-size:1.35rem;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.readout b small{font-size:.8rem;color:var(--muted);font-weight:400}
-.fine{font-size:.85rem;color:var(--muted);line-height:1.5}
+.readout div{padding-top:14px;min-width:0}
+.readout div+div{padding-left:16px;border-left:1px solid var(--line)}
+.readout b{display:block;font-family:var(--mono);font-weight:500;font-size:clamp(1.5rem,1.1rem + 1.2vw,2.3rem);letter-spacing:-.03em;margin-top:6px;white-space:nowrap}
+.readout b small{font-size:.9rem;color:var(--muted);font-weight:400;letter-spacing:0;margin-left:4px}
+.fine{font-size:.86rem;color:var(--muted);line-height:1.5}
+@media (max-width:960px){.hero-grid{grid-template-columns:1fr}.garment{width:min(100%,520px)}}
+
+/* Anatomy tour */
+.anatomy{background:var(--soft);border-block:1px solid var(--line)}
+.an-head{padding-block:clamp(64px,8vw,112px) 0;max-width:720px}
+.an-head h2{font-size:var(--s2)}
+.an-head p{color:var(--muted);margin-top:14px;max-width:52ch}
+.an-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,5vw,80px)}
+.an-stick{position:sticky;top:84px;height:calc(100vh - 120px);max-height:760px;display:grid;place-items:center;padding-block:24px}
+.an-frame{position:relative;width:min(100%,640px);aspect-ratio:1;border-radius:28px;overflow:hidden;background:#fff;box-shadow:0 40px 80px -50px rgba(0,0,0,.35)}
+.an-img{position:absolute;inset:0;transition:transform 1.1s var(--ease);transform-origin:var(--ox,50%) var(--oy,50%);transform:scale(var(--z,1))}
+.an-img img{width:100%;height:100%;object-fit:contain}
+.pt{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:#fff;color:var(--ink);font:500 .82rem/34px var(--mono);text-align:center;box-shadow:0 0 0 2px var(--measure),0 6px 16px -6px rgba(0,0,0,.4);transform:scale(calc(.8 / var(--z,1)));transition:transform .8s var(--ease),background .3s,color .3s}
+.pt.on{background:var(--measure);color:#fff;transform:scale(calc(1.15 / var(--z,1)))}
+.pt.on::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--measure);animation:ping 1.6s ease-out infinite}
+@keyframes ping{from{transform:scale(.8);opacity:1}to{transform:scale(1.6);opacity:0}}
+.an-steps{list-style:none;margin:0;padding:0 0 30vh}
+.an-steps li{min-height:72vh;display:flex;flex-direction:column;justify-content:center;gap:12px;opacity:.28;transition:opacity .5s var(--ease)}
+.an-steps li.on{opacity:1}
+.an-steps .n{font-family:var(--mono);color:var(--measure);font-size:.9rem}
+.an-steps h3{font-size:var(--s2)}
+.an-steps p{color:var(--muted);max-width:40ch;font-size:var(--s1);line-height:1.5}
+@media (max-width:900px){
+  .an-grid{grid-template-columns:1fr;gap:0}
+  .an-stick{top:60px;height:auto;padding-block:12px;z-index:2;background:var(--soft)}
+  .an-frame{width:min(100%,400px);border-radius:22px}
+  .an-steps li{min-height:52vh;padding-inline:4px}
+  .an-steps h3{font-size:1.6rem}
+  .an-steps p{font-size:1.05rem}
+}
 
 /* Index */
-.section{padding-block:clamp(56px,8vw,104px)}
-.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.section{padding-block:clamp(64px,8vw,112px)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:32px}
 .sec-head h2{font-size:var(--s2)}
-.sec-head p{color:var(--muted);margin-top:8px;max-width:52ch}
-.index{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ink)}
-.item{display:grid;grid-template-rows:auto 1fr;text-decoration:none;border-right:1px solid var(--line);padding:18px 18px 22px 0;gap:16px;min-width:0}
-.item+.item{padding-left:18px}
-.item:last-child{border-right:0;padding-right:0}
-.sq{position:relative;aspect-ratio:1;overflow:hidden;border-radius:12px;background:var(--soft)}
-.sq img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .35s var(--ease),transform .6s var(--ease)}
+.sec-head p{color:var(--muted);margin-top:10px;max-width:52ch}
+.index{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.item{display:grid;grid-template-rows:auto 1fr;text-decoration:none;gap:16px;min-width:0}
+.sq{position:relative;aspect-ratio:1;overflow:hidden;border-radius:20px;background:var(--soft)}
+.sq img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
 .sq img.contain{object-fit:contain;background:#fff}
-.sq img.alt{opacity:0}
-.item:hover .sq img.main:not(:only-child){opacity:0}
-.item:hover .sq img.alt{opacity:1}
-[data-view="print"] .sq img.main{opacity:0}
-[data-view="print"] .sq img.alt{opacity:1}
-.spec{display:grid;gap:10px;align-content:start}
+.sq img.alt{clip-path:circle(0% at var(--x,50%) var(--y,50%));transition:clip-path .8s var(--ease)}
+.item:hover .sq img.alt,[data-view="print"] .sq img.alt{clip-path:circle(150% at var(--x,50%) var(--y,50%))}
+.item:hover .sq img.main{transform:scale(1.04)}
+.spec{display:grid;gap:8px;align-content:start}
 .spec h3{font-size:var(--s1);letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
 .sw{width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.14);flex:none}
 .spec dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.92rem}
-.spec dt{font-family:var(--mono);font-size:.78rem;color:var(--muted);padding-top:2px;text-transform:uppercase;letter-spacing:.04em}
+.spec dt{font-family:var(--mono);font-size:.76rem;color:var(--muted);padding-top:2px;text-transform:uppercase;letter-spacing:.04em}
 .spec dd{margin:0}
 .go{font-weight:500;display:inline-flex;gap:6px;align-items:center;margin-top:4px}
-.go i{font-style:normal;transition:transform .2s var(--ease)}
-.item:hover .go i{transform:translateX(3px)}
-@media (max-width:1000px){.index{grid-template-columns:repeat(2,minmax(0,1fr))}.item:nth-child(2n){border-right:0;padding-right:0}.item:nth-child(3){padding-left:0}.item:nth-child(n+3){border-top:1px solid var(--line)}}
-@media (max-width:600px){
-  .index{grid-template-columns:1fr}
-  .item{grid-template-columns:132px 1fr;grid-template-rows:auto;border-right:0;padding:18px 0!important;border-top:1px solid var(--line)}
-  .item:first-child{border-top:0}
-  .spec dl{display:none}
-  .spec .style-m{display:block}
-}
+.go i{font-style:normal;transition:transform .3s var(--ease)}
+.item:hover .go i{transform:translateX(4px)}
 .style-m{display:none;color:var(--muted);font-size:.95rem}
-.toolbar{display:flex;gap:12px 20px;align-items:center;flex-wrap:wrap}
+@media (max-width:1000px){.index{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 16px}}
+@media (max-width:600px){.index{grid-template-columns:1fr;gap:0}.item{grid-template-columns:132px 1fr;grid-template-rows:auto;padding:16px 0;border-top:1px solid var(--line)}.item:first-child{border-top:0}.sq{border-radius:16px}.spec dl{display:none}.style-m{display:block}}
 
-/* Label band */
-.labelband{background:var(--soft);border-block:1px solid var(--line)}
-.labelband .grid{align-items:center;gap:40px 24px}
-.lb-text{grid-column:1/7}
+.labelband .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px 64px;align-items:center}
 .lb-text h2{font-size:var(--s2)}
-.lb-text p{margin-top:16px;color:var(--muted);max-width:48ch}
-.carelabel{grid-column:8/13;background:#fff;border-radius:4px;padding:26px 24px;font-family:var(--mono);font-size:.88rem;line-height:1.7;box-shadow:0 1px 0 var(--line),0 12px 30px -16px rgba(0,0,0,.18);position:relative}
-.carelabel::before{content:"";position:absolute;inset:8px;border:1px dashed #D5D3CD;border-radius:2px;pointer-events:none}
+.lb-text p{margin-top:16px;color:var(--muted);max-width:46ch}
+.carelabel{background:#fff;border-radius:6px;padding:28px 26px;font-family:var(--mono);font-size:.9rem;line-height:1.7;box-shadow:0 1px 0 var(--line),0 30px 60px -30px rgba(0,0,0,.25);position:relative;transform:rotate(1.2deg);transition:transform .6s var(--spring)}
+.carelabel:hover{transform:rotate(0) scale(1.02)}
+.carelabel::before{content:"";position:absolute;inset:9px;border:1px dashed #D5D3CD;border-radius:3px;pointer-events:none}
 .carelabel img{height:16px;width:auto;margin-bottom:14px}
-.carelabel .row{display:grid;grid-template-columns:110px 1fr;gap:8px;padding:6px 0;border-top:1px solid var(--line)}
+.carelabel .row{display:grid;grid-template-columns:110px 1fr;gap:8px;padding:7px 0;border-top:1px solid var(--line)}
 .carelabel .row span:first-child{color:var(--muted);text-transform:uppercase;font-size:.76rem;letter-spacing:.05em;padding-top:2px}
-@media (max-width:900px){.lb-text,.carelabel{grid-column:1/-1}}
+@media (max-width:900px){.labelband .grid{grid-template-columns:1fr}.carelabel{transform:none}}
+@supports (animation-timeline:view()){@media (prefers-reduced-motion:no-preference){
+  .carelabel .row{animation:rowin linear both;animation-timeline:view();animation-range:entry 10% cover 35%}
+  @keyframes rowin{from{transform:translateX(-14px);opacity:.15}}
+  .lift{animation:lift linear both;animation-timeline:view();animation-range:entry 0% cover 40%}
+  @keyframes lift{from{transform:translateY(48px) scale(.97)}}
+}}
 
-.prints{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-.print{text-decoration:none;display:grid;gap:12px}
-.print .sq{border-radius:50%}
+.prints{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.print{text-decoration:none;display:grid;gap:14px}
+.print .sq{border-radius:50%;transition:transform .8s var(--spring)}
+.print:hover .sq{transform:rotate(-14deg) scale(1.04)}
 .print p{color:var(--muted);font-size:.95rem}
 .print b{font-weight:600}
 @media (max-width:760px){.prints{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}}
 
 /* Shop */
-.phead{padding-block:clamp(32px,5vw,64px) 24px;border-bottom:1px solid var(--line)}
-.phead h1{font-size:var(--s3)}
-.phead p{color:var(--muted);margin-top:14px;max-width:56ch}
-.filterbar{display:flex;gap:16px 28px;align-items:center;flex-wrap:wrap;padding-block:18px;border-bottom:1px solid var(--line)}
+.phead{padding-block:clamp(32px,5vw,72px) 24px}
+.phead h1{font-size:var(--s3);letter-spacing:-.045em}
+.phead p{color:var(--muted);margin-top:16px;max-width:56ch}
+.filterbar{position:sticky;top:60px;z-index:5;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);padding-block:14px;border-block:1px solid var(--line)}
 .fg{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .colours{display:flex;gap:6px}
-.cbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center}
+.cbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center;transition:transform .3s var(--spring)}
+.cbtn:hover{transform:scale(1.08)}
 .cbtn span{width:24px;height:24px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
 .cbtn[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 .count-line{font-family:var(--mono);font-size:var(--s-1);color:var(--muted);margin-left:auto}
-.listview .index{grid-template-columns:1fr}
-.listview .item{grid-template-columns:120px minmax(0,1fr) auto;grid-template-rows:auto;align-items:center;border-right:0;padding:16px 0!important;border-top:1px solid var(--line)}
+.listview .index{grid-template-columns:1fr;gap:0}
+.listview .item{grid-template-columns:140px minmax(0,1fr);grid-template-rows:auto;align-items:center;padding:16px 0;border-top:1px solid var(--line)}
 .listview .item:first-child{border-top:0}
-.listview .spec{grid-template-columns:minmax(0,1.2fr) minmax(0,2fr);align-items:center;gap:8px 24px}
+.listview .spec{grid-template-columns:minmax(0,1fr) minmax(0,2fr) auto;align-items:center;gap:8px 24px}
 .listview .spec dl{display:grid}
-.listview .go{grid-column:auto}
 @media (max-width:600px){.listview .item{grid-template-columns:96px 1fr}.listview .spec{grid-template-columns:1fr}.listview .spec dl{display:none}}
+.empty{padding:44px 0;text-align:center;color:var(--muted)}
 
 /* Product */
 .crumb{padding-top:20px;font-size:.92rem;color:var(--muted)}
 .crumb a{color:inherit}
-.pdp{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,56px);padding-top:16px;align-items:start}
-.photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.photos button{padding:0;border:0;cursor:zoom-in;background:none;border-radius:12px;overflow:hidden;display:block}
+.pdp{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,4vw,64px);padding-top:16px;align-items:start}
+.photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.photos button{padding:0;border:0;cursor:zoom-in;background:none;border-radius:20px;overflow:hidden;display:block}
 .photos button:first-child{grid-column:1/-1}
-.photos .sq{border-radius:12px}
 .photos button:first-child .sq{aspect-ratio:5/4}
-.photos .sq img{transition:transform .6s var(--ease)}
-.photos button:hover .sq img{transform:scale(1.03)}
+.photos button:hover .sq img{transform:scale(1.04)}
 .cfg{position:sticky;top:84px;display:grid;gap:22px}
-.cfg h1{font-size:clamp(2rem,1.4rem + 2vw,3rem)}
+.cfg h1{font-size:clamp(2.2rem,1.4rem + 2.6vw,3.6rem);letter-spacing:-.035em}
 .cfg .sub{color:var(--muted);margin-top:10px}
 .step{display:grid;gap:12px;padding-top:20px;border-top:1px solid var(--line)}
-.step-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.step-h{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .step-h b{font-weight:600}
+.step-h b em{font-style:normal;font-family:var(--mono);color:var(--measure);font-weight:500;margin-right:8px}
 .step-h a{display:inline-flex;align-items:center;min-height:44px}
-.step-h b em{font-style:normal;font-family:var(--mono);color:var(--muted);font-weight:400;margin-right:8px}
-.err{color:#A23A28;font-size:.92rem}
+.diagram{background:var(--soft);border-radius:18px;padding:14px 10px 8px;overflow:hidden}
+.diagram svg{width:100%;height:auto;display:block;overflow:visible}
+.diagram .g{fill:#fff;stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round;stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 1.4s var(--ease) forwards}
+.diagram .dim{stroke:var(--measure);stroke-width:1.6;fill:none;transition:all .7s var(--spring)}
+.diagram .tick{stroke:var(--measure);stroke-width:1.6;transition:all .7s var(--spring)}
+.diagram text{font-family:var(--mono);font-size:17px;font-weight:500;fill:var(--measure);transition:all .7s var(--spring)}
+.diagram .scale{transition:transform .7s var(--spring);transform-box:fill-box;transform-origin:50% 0}
+.err{color:#B13A26;font-size:.92rem}
+.err:not([hidden]){animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 .qrow{display:flex;gap:12px;align-items:center}
 .stepper{display:inline-flex;align-items:center;background:var(--soft);border-radius:26px;height:52px}
 .stepper button{width:48px;height:52px;border:0;background:none;cursor:pointer;font-size:1.25rem;border-radius:26px}
@@ -202,14 +241,15 @@ main.enter{animation:fade .25s var(--ease)}
 .specs .r>span:first-child{font-family:var(--mono);font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding-top:3px}
 .specs ul{margin:0;padding-left:1.1em}
 .tagp{display:inline-block;font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;background:var(--soft);border-radius:4px;padding:2px 6px;color:var(--muted);margin-left:6px;vertical-align:1px}
-.storyline{background:var(--soft);border-radius:16px;padding:18px 20px}
+.storyline{background:var(--soft);border-radius:20px;padding:18px 20px}
 .storyline p{font-size:1.05rem}
-.storyline button{margin-top:10px;background:none;border:0;padding:8px 0;cursor:pointer;font-weight:500}
+.storyline button{margin-top:6px;background:none;border:0;padding:0;min-height:44px;cursor:pointer;font-weight:500}
 .storyline ol{margin:12px 0 0;padding-left:1.2em;color:var(--muted)}
-.storyline li+li{margin-top:6px}
+.storyline ol:not([hidden]){animation:fadeup .5s var(--ease)}
+@keyframes fadeup{from{opacity:0;transform:translateY(-6px)}}
 @media (max-width:960px){.pdp{grid-template-columns:1fr}.cfg{position:static}.photos{grid-template-columns:repeat(3,minmax(0,1fr))}.photos button:first-child .sq{aspect-ratio:1}}
 @media (max-width:600px){.specs .r{grid-template-columns:1fr;gap:4px}}
-.mbar{position:fixed;left:0;right:0;bottom:0;z-index:15;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:none;gap:12px;align-items:center}
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:15;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:none;gap:12px;align-items:center}
 .mbar .t{flex:1;min-width:0;font-family:var(--mono);font-size:.82rem;color:var(--muted);line-height:1.35}
 .mbar .t b{display:block;font-family:var(--sans);color:var(--ink);font-size:.98rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mbar .btn{min-height:48px}
@@ -218,11 +258,11 @@ main.enter{animation:fade .25s var(--ease)}
 /* Pages */
 .doc{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:0 24px;padding-bottom:clamp(56px,8vw,96px)}
 .doc>.side{grid-column:1/4;padding-top:40px}
-.doc>.body{grid-column:4/11;padding-top:40px}
+.doc>.body{grid-column:4/11;padding-top:40px;min-width:0}
 .doc .side ul{list-style:none;padding:0;margin:0;position:sticky;top:96px;display:grid;gap:2px}
 .doc .side a{text-decoration:none;color:var(--muted);display:block;padding:8px 0}
 .doc .side a:hover{color:var(--ink)}
-.body h2{font-size:var(--s2);margin:48px 0 14px}
+.body h2{font-size:var(--s2);margin:56px 0 16px}
 .body h2:first-child{margin-top:0}
 .body p+p{margin-top:1em}
 .body p,.body li{max-width:62ch}
@@ -234,16 +274,18 @@ th,td{text-align:left;padding:14px 12px 14px 0;border-bottom:1px solid var(--lin
 td{font-family:var(--mono)}
 thead th{font-family:var(--mono);font-weight:400;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom-color:var(--ink)}
 tbody th{font-weight:500}
-td.on,th.on{color:var(--measure);font-weight:500}
 .cgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:24px 0}
-.cbox{border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:12px;align-content:start}
+.cbox{border:1px solid var(--line);border-radius:20px;padding:22px;display:grid;gap:12px;align-content:start}
 .cbox .v{font-family:var(--mono);user-select:all;word-break:break-all}
 @media (max-width:600px){.cgrid{grid-template-columns:1fr}}
 .field{display:grid;gap:6px;margin-top:16px}
-.field input,.field textarea{border:1px solid var(--line);border-radius:12px;padding:14px;min-height:52px;background:#fff;font-size:1rem}
+.field input,.field textarea{border:1px solid var(--line);border-radius:14px;padding:14px;min-height:52px;background:#fff;font-size:1rem;transition:border-color .2s,box-shadow .2s}
+.field input:focus,.field textarea:focus{border-color:var(--measure);box-shadow:0 0 0 4px rgba(47,98,214,.12);outline:none}
 .field textarea{min-height:140px}
+.wide-img{border-radius:24px;overflow:hidden;aspect-ratio:16/8;margin-bottom:24px;background:var(--soft)}
+.wide-img img{width:100%;height:100%;object-fit:cover}
 
-footer{border-top:1px solid var(--line);padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
+footer{border-top:1px solid var(--line);padding-block:44px calc(40px + env(safe-area-inset-bottom,0px))}
 .fgrid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:28px 24px}
 .fgrid>div:first-child{grid-column:1/6}
 .fgrid>div{grid-column:span 2}
@@ -254,17 +296,17 @@ footer{border-top:1px solid var(--line);padding-block:40px calc(40px + env(safe-
 @media (max-width:760px){.fgrid>div:first-child{grid-column:1/-1}.fgrid>div{grid-column:span 6}}
 
 dialog{border:0;padding:0;background:#fff;color:var(--ink);max-width:100%;max-height:100%}
-dialog::backdrop{background:rgba(22,23,26,.32)}
+dialog::backdrop{background:rgba(20,21,24,.3);backdrop-filter:blur(6px)}
 .panel{margin:0 0 0 auto;height:100%;width:min(460px,100%)}
 .panel[open],.sheet[open]{display:flex;flex-direction:column}
-.panel[open]{animation:slide .3s var(--ease)}
-@keyframes slide{from{transform:translateX(24px);opacity:0}}
+.panel[open]{animation:slide .45s var(--ease)}
+@keyframes slide{from{transform:translateX(40px);opacity:0}}
 .ph{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;padding-top:calc(14px + env(safe-area-inset-top,0px));border-bottom:1px solid var(--line)}
 .ph h2{font-size:var(--s1)}
 .pb{flex:1;overflow:auto;padding:4px 20px}
 .pf{border-top:1px solid var(--line);padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px));display:grid;gap:12px}
-.line{display:grid;grid-template-columns:72px 1fr auto;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);align-items:start}
-.line .sq{border-radius:10px}
+.line{display:grid;grid-template-columns:72px 1fr auto;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);align-items:start;animation:fadeup .4s var(--ease)}
+.line .sq{border-radius:12px}
 .line b{font-weight:600}
 .line .m{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-top:2px}
 .line .acts{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
@@ -273,22 +315,33 @@ dialog::backdrop{background:rgba(22,23,26,.32)}
 .rm{background:none;border:0;cursor:pointer;color:var(--muted);text-decoration:underline;text-underline-offset:4px;min-height:44px}
 .sum{display:flex;justify-content:space-between;font-size:.95rem}
 .sum span:last-child{color:var(--muted)}
-.empty{padding:44px 0;text-align:center;color:var(--muted)}
 .empty .btn{margin-top:18px}
 .sheet{width:100%;height:100%;margin:0}
+.sheet[open]{animation:fadeup .35s var(--ease)}
 .sheet nav{display:grid;padding:8px 20px}
-.sheet nav a{font-size:1.6rem;font-weight:600;letter-spacing:-.02em;text-decoration:none;padding:14px 0;border-bottom:1px solid var(--line)}
-.viewer{width:min(960px,100%);margin:auto;border-radius:16px;background:var(--soft)}
-.viewer[open]{display:grid;animation:fade .2s}
-.viewer .stage{aspect-ratio:1;max-height:78vh;display:grid;place-items:center}
-.viewer .stage img{max-height:78vh;width:auto;object-fit:contain}
+.sheet nav a{font-size:1.8rem;font-weight:600;letter-spacing:-.03em;text-decoration:none;padding:14px 0;border-bottom:1px solid var(--line)}
+.viewer{width:min(1000px,100%);margin:auto;border-radius:24px;background:var(--soft);overflow:hidden}
+.viewer[open]{display:grid;animation:zoomin .4s var(--ease)}
+@keyframes zoomin{from{opacity:0;transform:scale(.96)}}
+.viewer .stage{aspect-ratio:1;max-height:78vh;display:grid;place-items:center;overflow:hidden;cursor:zoom-in}
+.viewer .stage img{max-height:78vh;width:auto;object-fit:contain;transition:transform .5s var(--ease)}
+.viewer .stage.zoom{cursor:zoom-out}
+.viewer .stage.zoom img{transform:scale(2.2)}
 .viewer .vb{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;gap:10px;background:#fff}
-.toast{position:fixed;right:max(16px,env(safe-area-inset-right,0px));top:calc(72px + env(safe-area-inset-top,0px));background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 32px -12px rgba(0,0,0,.2);padding:14px 16px;display:flex;gap:14px;align-items:center;z-index:40;opacity:0;transform:translateY(-8px);transition:opacity .2s,transform .25s var(--ease);pointer-events:none;max-width:calc(100% - 32px)}
+.toast{position:fixed;right:max(16px,env(safe-area-inset-right,0px));top:calc(72px + env(safe-area-inset-top,0px));background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 40px -16px rgba(0,0,0,.25);padding:12px;display:flex;gap:14px;align-items:center;z-index:40;opacity:0;transform:translateY(-12px) scale(.96);transition:opacity .25s,transform .5s var(--spring);pointer-events:none;max-width:calc(100% - 32px)}
 .toast.show{opacity:1;transform:none;pointer-events:auto}
-.toast .sq{width:48px;flex:none;border-radius:8px}
+.toast .sq{width:52px;flex:none;border-radius:12px}
 .toast p{font-size:.92rem;line-height:1.35}
-.toast button{border:0;background:none;font-weight:600;cursor:pointer;min-height:44px;padding:0 4px}
-@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.toast button{border:0;background:var(--ink);color:#fff;border-radius:18px;font-weight:500;cursor:pointer;min-height:40px;padding:0 14px}
+
+::view-transition-old(root){animation:.3s ease both vt-out}
+::view-transition-new(root){animation:.5s var(--ease) both vt-in}
+@keyframes vt-out{to{opacity:0;transform:scale(.985)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(14px)}}
+::view-transition-group(shared){animation-duration:.65s;animation-timing-function:var(--ease)}
+::view-transition-old(shared),::view-transition-new(shared){height:100%;object-fit:cover}
+
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}.garment .dl{stroke-dashoffset:0}.diagram .g{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
@@ -323,7 +376,7 @@ dialog::backdrop{background:rgba(22,23,26,.32)}
   <nav aria-label="Mobile"><a href="#">Home</a><a href="#shop">All sets</a><a href="#fabric">Fabric</a><a href="#size-guide">Size guide</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
 </dialog>
 <dialog class="viewer" id="viewer" aria-label="Photo viewer">
-  <div class="stage"><img id="vImg" alt=""></div>
+  <div class="stage" id="vStage"><img id="vImg" alt=""></div>
   <div class="vb"><button class="tbtn" type="button" id="vPrev" aria-label="Previous photo">←</button><span class="mono" id="vCount"></span><button class="tbtn" type="button" id="vNext" aria-label="Next photo">→</button><button class="tbtn" type="button" data-close>Close</button></div>
 </dialog>
 
@@ -341,8 +394,15 @@ dialog::backdrop{background:rgba(22,23,26,.32)}
   const altImg = (p) => first(p, "print");
   const shorts = (p) => p.handle === "hen-farm-house";
   const longSleeve = (p) => p.sleeve === "Long sleeve";
+  const SCALE = [0.84, 0.89, 0.945, 1];
 
-  /* ----- segmented controls with a sliding thumb ----- */
+  const odo = (n) => `<span class="odo"><span class="sr">${n}</span>${String(n).split("").map((d) => `<span class="col" aria-hidden="true" style="transform:translateY(-${d}em)">${"0123456789".split("").map((x) => `<span>${x}</span>`).join("")}</span>`).join("")}</span>`;
+  const setOdo = (el, n) => {
+    const s = String(n), cols = $$(".col", el);
+    if (cols.length !== s.length) { el.outerHTML = odo(n); return; }
+    cols.forEach((c, i) => (c.style.transform = `translateY(-${s[i]}em)`)); $(".sr", el).textContent = n;
+  };
+
   function seg(el, onPick) {
     const btns = $$("button", el), thumb = document.createElement("span");
     thumb.className = "thumb"; el.prepend(thumb);
@@ -354,13 +414,18 @@ dialog::backdrop{background:rgba(22,23,26,.32)}
     });
     if (attr === "aria-checked") { const sel = btns.findIndex((x) => x.getAttribute(attr) === "true"); btns.forEach((x, i) => x.tabIndex = i === (sel < 0 ? 0 : sel) ? 0 : -1); }
     requestAnimationFrame(place); new ResizeObserver(place).observe(el);
-    return { place };
   }
   const sizeSeg = (selected, label) => `<div class="seg full" role="radiogroup" aria-label="${label}">${SIZES.map((s) => `<button type="button" role="radio" aria-checked="${s === selected}" data-v="${s}">${s}</button>`).join("")}</div>`;
+  const readoutHTML = (isShorts, i) => `<div><span class="label">Size</span><b>${SIZES[i]}</b></div><div><span class="label">Top</span><b>${odo(vals("top")[i])}<small>cm</small></b></div><div><span class="label">${isShorts ? "Shorts" : "Pant"}</span><b>${odo(vals(isShorts ? "shorts" : "pant")[i])}<small>cm</small></b></div>`;
+  function updateReadout(root, isShorts, i) {
+    const bs = $$("b", root);
+    bs[0].textContent = SIZES[i];
+    setOdo($(".odo", bs[1]), vals("top")[i]);
+    setOdo($(".odo", bs[2]), vals(isShorts ? "shorts" : "pant")[i]);
+  }
 
-  /* ----- the measured garment diagram ----- */
   function diagram(p) {
-    const sleeveLong = !p || longSleeve(p), isShorts = p && shorts(p);
+    const sleeveLong = longSleeve(p), isShorts = shorts(p);
     const sl = sleeveLong ? "M54 32 L30 44 L16 128 L38 132 L54 80" : "M54 32 L26 46 L18 84 L42 90 L54 70";
     const sr = sleeveLong ? "M186 32 L210 44 L224 128 L202 132 L186 80" : "M186 32 L214 46 L222 84 L198 90 L186 70";
     return `<svg viewBox="0 0 420 300" role="img" aria-labelledby="dgT"><title id="dgT">Line drawing of the set with its measured lengths</title>
@@ -369,12 +434,11 @@ dialog::backdrop{background:rgba(22,23,26,.32)}
       <line class="dim" x1="234" y1="22" x2="234" y2="150" id="topDim"/><line class="tick" x1="228" y1="22" x2="240" y2="22"/><line class="tick" id="topTick" x1="228" y1="150" x2="240" y2="150"/>
       <text x="120" y="174" id="topTxt" text-anchor="middle"></text>
       <line class="dim" x1="398" y1="22" x2="398" y2="${isShorts ? 112 : 252}" id="botDim"/><line class="tick" x1="392" y1="22" x2="404" y2="22"/><line class="tick" id="botTick" x1="392" y1="${isShorts ? 112 : 252}" x2="404" y2="${isShorts ? 112 : 252}"/>
-      <text x="300" y="${isShorts ? 140 : 280}" id="botTxt" text-anchor="middle"></text>
+      <text x="322" y="${isShorts ? 140 : 280}" id="botTxt" text-anchor="middle"></text>
     </svg>`;
   }
   function setDiagram(root, p, i) {
-    const top = vals("top"), bot = vals(p && shorts(p) ? "shorts" : "pant");
-    const isShorts = p && shorts(p);
+    const top = vals("top"), isShorts = shorts(p), bot = vals(isShorts ? "shorts" : "pant");
     const ts = top[i] / top[3], bs = bot[i] / bot[3];
     $("#topG", root).style.transform = `scaleY(${ts})`;
     $("#botG", root).style.transform = `translate(250px,0) scaleY(${bs})`;
@@ -382,84 +446,110 @@ dialog::backdrop{background:rgba(22,23,26,.32)}
     $("#topDim", root).setAttribute("y2", ty); $("#topTick", root).setAttribute("y1", ty); $("#topTick", root).setAttribute("y2", ty);
     $("#botDim", root).setAttribute("y2", by); $("#botTick", root).setAttribute("y1", by); $("#botTick", root).setAttribute("y2", by);
     $("#topTxt", root).textContent = `${top[i]} cm`; $("#botTxt", root).textContent = `${bot[i]} cm`;
-    $("#topTxt", root).setAttribute("y", ty + 26);
-    $("#botTxt", root).setAttribute("y", by + 24);
+    $("#topTxt", root).setAttribute("y", ty + 26); $("#botTxt", root).setAttribute("y", by + 24);
   }
-  const readout = (p, i) => {
-    const t = vals("top")[i], b = vals(p && shorts(p) ? "shorts" : "pant")[i];
-    return `<div><span class="label">Size</span><b>${SIZES[i]}</b></div><div><span class="label">Top</span><b>${t}<small> cm</small></b></div><div><span class="label">${p && shorts(p) ? "Shorts" : "Pant"}</span><b>${b}<small> cm</small></b></div>`;
-  };
 
-  /* ----- fragments ----- */
   const item = (p) => {
     const m = mainImg(p), a = altImg(p);
-    return `<a class="item" href="#product/${p.handle}">
-      <div class="sq"><img class="main ${m.kind === "garment" ? "contain" : ""}" src="${m.small}" alt="${esc(m.alt)}" loading="lazy" style="object-position:${m.focus}"><img class="alt" src="${a.small}" alt="" loading="lazy"></div>
-      <div class="spec">
-        <h3><span class="sw" style="--c:${p.colour.hex}"></span>${esc(p.title)}</h3>
-        <span class="style-m">${esc(p.style)}</span>
+    return `<a class="item" href="#product/${p.handle}" data-shared>
+      <div class="sq"><img class="main ${m.kind === "garment" ? "contain" : ""}" src="${m.src}" alt="${esc(m.alt)}" loading="lazy" style="object-position:${m.focus}"><img class="alt" src="${a.small}" alt="" loading="lazy"></div>
+      <div class="spec"><h3><span class="sw" style="--c:${p.colour.hex}"></span>${esc(p.title)}</h3><span class="style-m">${esc(p.style)}</span>
         <dl><dt>Style</dt><dd>${esc(p.style)}</dd><dt>Sleeve</dt><dd>${p.sleeve}</dd><dt>Sizes</dt><dd>2–3Y to 5–6Y</dd></dl>
-        <span class="go">View set <i aria-hidden="true">→</i></span>
-      </div></a>`;
+        <span class="go">View set <i aria-hidden="true">→</i></span></div></a>`;
   };
-  const sizeTable = (hi = -1) => `<div class="tw"><table><thead><tr><th scope="col">Measurement</th>${SIZES.map((s, i) => `<th scope="col" class="${i === hi ? "on" : ""}">${s}</th>`).join("")}</tr></thead><tbody>${sizeChart.rows.map((r) => `<tr><th scope="row">${r.label}</th>${r.values.map((v, i) => `<td class="${i === hi ? "on" : ""}">${v} cm</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
-  const fitCard = (p) => `<div class="fitcard" id="fitcard">
-      <div class="fit-head"><h2>${p ? "Measured lengths" : "Check the fit"}</h2><span class="label">Draft chart</span></div>
-      ${sizeSeg("3–4Y", "Size to preview")}
-      <div class="diagram">${diagram(p)}</div>
-      <div class="readout" id="readout"></div>
-      <p class="fine">Garment lengths from our design files, laid flat. Confirmed on finished samples before launch.</p>
+  const sizeTable = () => `<div class="tw"><table><thead><tr><th scope="col">Measurement</th>${SIZES.map((s) => `<th scope="col">${s}</th>`).join("")}</tr></thead><tbody>${sizeChart.rows.map((r) => `<tr><th scope="row">${r.label}</th>${r.values.map((v) => `<td>${v} cm</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  const stage = (p) => {
+    const g = first(p, "garment");
+    return `<div class="stage" id="fitcard">
+      <div class="garment" id="garment" style="--s:${SCALE[1]}">
+        <img src="${g.large}" alt="${esc(g.alt)}" fetchpriority="high">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line class="dl" x1="50" y1="3" x2="50" y2="39"/><line class="dl" x1="48.5" y1="3" x2="51.5" y2="3"/><line class="dl" x1="48.5" y1="39" x2="51.5" y2="39"/>
+          <line class="dl" x1="50" y1="42" x2="50" y2="94"/><line class="dl" x1="48.5" y1="42" x2="51.5" y2="42"/><line class="dl" x1="48.5" y1="94" x2="51.5" y2="94"/>
+        </svg>
+        <span class="pill" style="left:50%;top:21%" id="pillTop">${vals("top")[1]} cm</span>
+        <span class="pill" style="left:50%;top:68%" id="pillBot">${vals("pant")[1]} cm</span>
+      </div>
+      <div class="stage-ui">
+        ${sizeSeg("3–4Y", "Size to preview")}
+        <div class="readout" id="readout">${readoutHTML(false, 1)}</div>
+        <p class="fine">Draft garment lengths from our design files, laid flat. Each size adds about 3 cm to the top and 5 cm to the pant. Confirmed on finished samples before launch.</p>
+      </div>
     </div>`;
-  function initFit(root, p, onPick) {
-    const card = $("#fitcard", root) || root;
-    const go = (i) => { setDiagram(card, p, i); $("#readout", card).innerHTML = readout(p, i); onPick?.(i); };
-    seg($(".seg", card), (v, i) => go(i));
-    go(1);
+  };
+  function initStage(root) {
+    const g = $("#garment", root);
+    seg($(".seg", root), (v, i) => {
+      g.style.setProperty("--s", SCALE[i]);
+      $("#pillTop", root).textContent = `${vals("top")[i]} cm`; $("#pillBot", root).textContent = `${vals("pant")[i]} cm`;
+      updateReadout($("#readout", root), false, i);
+    });
   }
+  const TOUR = [
+    { x: 21, y: 8, t: "Peter Pan collar", d: "A rounded collar, edged in soft piping that frames the face." },
+    { x: 17, y: 18, t: "Gathered yoke", d: "The front falls in soft gathers below the yoke, so the top moves with them." },
+    { x: 5, y: 35, t: "Frilled cuffs", d: "Elastic cuffs finished with a small frill. They stay at the wrist without pinching." },
+    { x: 26, y: 47, t: "A bow that stays put", d: "Cut from the same printed fabric and stitched in place, not a loose cord." },
+    { x: 77, y: 6, t: "Nothing at the neck", d: "The size is printed inside, so there is no tag to scratch through the night." },
+  ];
 
-  /* ----- views ----- */
   const views = {
     home: () => `
-      <section class="hero"><div class="wrap grid">
-        <h1>Pajama sets for ages 2 to 6. <span>Four prints, four sizes, one soft bamboo jersey.</span></h1>
-        <p class="intro">Children spend ten to twelve hours a day in their sleepwear. We publish the details that help you choose well.</p>
-        <div class="ctas"><a class="btn" href="#shop">Shop all sets</a><a class="btn line" href="#size-guide">Size guide</a></div>
-        ${fitCard(null)}
+      <section class="hero"><div class="wrap hero-grid">
+        <div>
+          <span class="label">mininmum · first collection</span>
+          <h1 id="heroTitle" style="margin-top:18px">Pajama sets, measured with care. <span class="dim">Ages 2 to 6.</span></h1>
+          <p class="intro">Children spend ten to twelve hours a day in their sleepwear. Pick a size and see exactly how the set grows.</p>
+          <div class="ctas"><a class="btn" href="#shop">Shop all sets <span class="arr" aria-hidden="true">→</span></a><a class="btn line" href="#size-guide">Size guide</a></div>
+        </div>
+        ${stage(MIN.find("frost-pond-morning"))}
       </div></section>
+
+      <section class="anatomy"><div class="wrap">
+        <div class="an-head"><span class="label">Anatomy of a set</span><h2 style="margin-top:12px">Every detail is there for a reason.</h2><p>Scroll through Picnic with Butterfly, our most detailed shape.</p></div>
+        <div class="an-grid">
+          <div class="an-stick"><div class="an-frame"><div class="an-img" id="anImg">
+            <img src="${MIN.find("picnic-with-butterfly").images[0].large}" alt="Picnic with Butterfly set laid flat, front and back" loading="lazy">
+            ${TOUR.map((s, i) => `<span class="pt" data-pt="${i}" style="left:${s.x}%;top:${s.y}%" aria-hidden="true">${i + 1}</span>`).join("")}
+          </div></div></div>
+          <ol class="an-steps">${TOUR.map((s, i) => `<li data-step="${i}"><span class="n">${String(i + 1).padStart(2, "0")}</span><h3>${s.t}</h3><p>${s.d}</p></li>`).join("")}</ol>
+        </div>
+      </div></section>
+
       <section class="section"><div class="wrap">
-        <div class="sec-head"><div><h2>The four sets</h2><p>Hover or switch the view to see each print up close.</p></div>
+        <div class="sec-head"><div><h2>The four sets</h2><p>Hover a set to reveal its print, or switch the whole view.</p></div>
           <div class="seg sans" id="viewSeg" role="group" aria-label="Photo view"><button type="button" aria-pressed="true" data-v="worn">Garment</button><button type="button" aria-pressed="false" data-v="print">Print</button></div></div>
         <div class="index" id="index" data-view="worn">${products.map(item).join("")}</div>
       </div></section>
-      <section class="section labelband"><div class="wrap grid">
-        <div class="lb-text"><span class="label">On every label</span><h2 style="margin-top:12px">What it is made of, and how to look after it</h2><p>Bamboo viscose is the planned fabric for our first collection. Everything below is our current working specification, shown openly while we finalise it with the mill.</p><p style="margin-top:22px"><a class="btn line" href="#fabric">Read the fabric story</a></p></div>
+
+      <section class="section labelband" style="padding-top:0"><div class="wrap grid">
+        <div class="lb-text lift"><span class="label">On every label</span><h2 style="margin-top:12px">What it is made of, and how to look after it.</h2><p>Bamboo viscose is the planned fabric for our first collection. Everything here is our current working specification, shown openly while we finalise it with the mill.</p><p style="margin-top:24px"><a class="btn line" href="#fabric">Read the fabric story</a></p></div>
         <div class="carelabel" aria-label="Working fabric and care label"><img src="../assets/img/logo.png" alt="mininmum"><div class="row"><span>Fabric</span><span>95% bamboo viscose<br>5% spandex</span></div><div class="row"><span>Weight</span><span>210 GSM jersey</span></div><div class="row"><span>Label</span><span>Printed inside, tag-free</span></div><div class="row"><span>Neck</span><span>No cords</span></div><div class="row"><span>Care</span><span>Wash cold, gentle<br>Tumble dry low<br>No fabric softener</span></div><div class="row"><span>Sizes</span><span>2–3Y · 3–4Y · 4–5Y · 5–6Y</span></div></div>
       </div></section>
-      <section class="section"><div class="wrap">
+
+      <section class="section" style="padding-top:0"><div class="wrap">
         <div class="sec-head"><div><h2>A story in every print</h2><p>Each print is drawn as a small scene, with a few lines to read at bedtime.</p></div></div>
-        <div class="prints">${products.map((p) => `<a class="print" href="#product/${p.handle}"><div class="sq"><img src="${altImg(p).small}" alt="${esc(altImg(p).alt)}" loading="lazy"></div><div><b>${esc(p.title)}</b><p>${esc(p.story[0])}</p></div></a>`).join("")}</div>
+        <div class="prints">${products.map((p) => `<a class="print lift" href="#product/${p.handle}"><div class="sq"><img src="${altImg(p).small}" alt="${esc(altImg(p).alt)}" loading="lazy"></div><div><b>${esc(p.title)}</b><p>${esc(p.story[0])}</p></div></a>`).join("")}</div>
       </div></section>`,
 
-    shop: () => `
-      <div class="wrap"><header class="phead"><span class="label">Shop</span><h1 style="margin-top:10px">All sets</h1><p>Every set comes in sizes 2–3Y, 3–4Y, 4–5Y and 5–6Y, so you can choose by print and sleeve length.</p></header>
-      <div class="filterbar">
+    shop: () => `<div class="wrap"><header class="phead"><span class="label">Shop</span><h1 style="margin-top:12px" class="doc-title">All sets</h1><p>Every set comes in sizes 2–3Y, 3–4Y, 4–5Y and 5–6Y, so you can choose by print and sleeve length.</p></header></div>
+      <div class="filterbar"><div class="wrap" style="display:flex;gap:16px 28px;align-items:center;flex-wrap:wrap">
         <div class="fg"><span class="label">Sleeve</span><div class="seg sans" id="sleeveSeg" role="radiogroup" aria-label="Sleeve length"><button type="button" role="radio" aria-checked="true" data-v="All">All</button><button type="button" role="radio" aria-checked="false" data-v="Short sleeve">Short</button><button type="button" role="radio" aria-checked="false" data-v="Long sleeve">Long</button></div></div>
         <div class="fg"><span class="label">Colour</span><div class="colours">${products.map((p) => `<button class="cbtn" type="button" aria-pressed="false" data-v="${p.colour.name}" aria-label="${p.colour.name}" title="${p.colour.name}" style="--c:${p.colour.hex}"><span></span></button>`).join("")}</div></div>
         <div class="fg"><span class="label">View</span><div class="seg sans" id="layoutSeg" role="group" aria-label="Layout"><button type="button" aria-pressed="true" data-v="grid">Grid</button><button type="button" aria-pressed="false" data-v="list">List</button></div></div>
         <span class="count-line" id="countLine" aria-live="polite"></span>
-      </div>
-      <div class="section" style="padding-top:24px" id="shopWrap"><div class="index" id="index"></div></div></div>`,
+      </div></div>
+      <div class="wrap section" style="padding-top:28px" id="shopWrap"><div class="index" id="index"></div></div>`,
 
-    product: (p) => `
-      <div class="wrap"><p class="crumb"><a href="#shop">All sets</a> / ${esc(p.title)}</p>
+    product: (p) => `<div class="wrap"><p class="crumb"><a href="#shop">All sets</a> / ${esc(p.title)}</p>
       <div class="pdp">
-        <div class="photos" id="photos">${p.images.map((im, i) => `<button type="button" data-i="${i}" aria-label="Enlarge photo ${i + 1}: ${esc(im.alt)}"><div class="sq"><img src="${i ? im.small : im.src}" alt="${esc(im.alt)}" class="${im.kind === "garment" ? "contain" : ""}" style="object-position:${im.focus}" ${i ? 'loading="lazy"' : ""}></div></button>`).join("")}</div>
+        <div class="photos" id="photos">${p.images.map((im, i) => `<button type="button" data-i="${i}" aria-label="Enlarge photo ${i + 1}: ${esc(im.alt)}"><div class="sq"><img src="${i ? im.src : im.large}" ${i ? 'loading="lazy"' : 'id="pdpHero"'} alt="${esc(im.alt)}" class="${im.kind === "garment" ? "contain" : ""}" style="object-position:${im.focus}"></div></button>`).join("")}</div>
         <div class="cfg" id="cfg">
-          <div><span class="label">${p.code} · ${esc(p.style)}</span><h1 style="margin-top:10px">${esc(p.title)}</h1><p class="sub">${esc(p.line)}</p></div>
+          <div><span class="label">${p.code} · ${esc(p.style)}</span><h1 style="margin-top:12px">${esc(p.title)}</h1><p class="sub">${esc(p.line)}</p></div>
           <div class="step" id="sizeStep"><div class="step-h"><b><em>1</em>Size</b><a class="u" href="#size-guide">Full size guide</a></div>
             ${sizeSeg(null, "Size")}
             <div class="diagram" id="pdpDiagram" hidden>${diagram(p)}</div>
-            <div class="readout" id="readout" hidden></div>
+            <div class="readout" id="readout" hidden>${readoutHTML(shorts(p), 0)}</div>
             <p class="err" id="err" hidden>Choose a size first. The lengths for each size appear here.</p>
           </div>
           <div class="step"><div class="step-h"><b><em>2</em>Quantity</b><span class="fine">Price set at launch</span></div>
@@ -478,80 +568,103 @@ dialog::backdrop{background:rgba(22,23,26,.32)}
       </div>
       <section class="section"><div class="sec-head"><h2>Compare with the other sets</h2></div><div class="index">${products.filter((q) => q !== p).map(item).join("")}</div></section></div>`,
 
-    about: () => doc("About", "A careful pajama label", [["Why we started", `<p>It began with a familiar frustration: searching, again and again, for sleepwear that felt right on a child. Sets that fit poorly. Fabric that itched. Quality that disappointed, or prices that did not reflect what was inside.</p><p>mininmum is being built to remove that compromise, with a better fit, softer breathable fabric and design as thoughtful as the moments it lives in.</p>`], ["Fit. Fabric. Fashion.", `<p><b>Fit:</b> sleepwear that moves with a child, never tight and never loose, for ages two to six.</p><p><b>Fabric:</b> bamboo at the heart of the first sets, with Tencel modal and bamboo cotton in exploration.</p><p><b>Fashion:</b> calm colours and story-led prints that look lovely folded on a shelf.</p>`], ["Where we are", `<p>We are preparing to launch in Singapore and working with mills and makers who share our standard. Founded by ${facts.founder}.</p>`]]),
-    fabric: () => doc("Fabric story", "Bamboo, documented", [["The fabric", `<p>Our first collection is planned in a bamboo viscose jersey, chosen for its soft feel, drape and breathability through long hours of sleep.</p>${specTable([["Composition", "95% bamboo viscose, 5% spandex"], ["Weight", "About 210 GSM"], ["Print", "Reactive digital print"], ["Status", "Working specification, being confirmed with the mill"]])}`], ["In exploration", `<p><b>Tencel modal</b> for a silkier hand-feel and <b>bamboo cotton</b> for everyday durability. Neither is confirmed for a collection yet.</p>`], ["Construction", `<ul>${products[0].construction.map((c) => `<li>${c}</li>`).join("")}<li>Waist bows are cut from the same fabric and anchored in place</li></ul>`], ["Care", `<ul>${products[0].care.map((c) => `<li>${c}</li>`).join("")}</ul><p class="fine" style="margin-top:16px">Confirmed fabric details and any test results will be published with each product before launch.</p>`]]),
-    "size-guide": () => doc("Size guide", "Sizes by age, lengths in centimetres", [["Preview a size", `<div style="max-width:520px">${fitCard(null)}</div>`], ["Full chart", `<p>${sizeChart.note}</p>${sizeTable()}`], ["How to measure", `<p>Lay a well-fitting top flat. Measure from the highest point of the shoulder to the hem. For pants, measure from the top of the waistband to the hem along the side.</p><p>If your child is between sizes, compare with a set they wear now, or <a class="u" href="#contact">ask us</a>.</p>`]]),
-    contact: () => doc("Contact", "Talk to the founder", [["Reach us", `<div class="cgrid"><div class="cbox"><span class="label">WhatsApp</span><span class="v">${facts.phone}</span><a class="btn line" href="${facts.whatsapp}" target="_blank" rel="noopener">Open WhatsApp</a></div><div class="cbox"><span class="label">Email</span><span class="v">${facts.email}</span><button class="btn line" type="button" data-copy="${facts.email}">Copy address</button></div></div>`], ["Send a message", `<form id="cform" novalidate><div class="field"><label for="n">Name</label><input id="n" autocomplete="name"></div><div class="field"><label for="e">Email</label><input id="e" type="email" autocomplete="email"></div><div class="field"><label for="m">Message</label><textarea id="m"></textarea></div><p style="margin-top:18px"><button class="btn" type="submit">Send</button></p><p class="fine" id="cstat" aria-live="polite" style="margin-top:12px"></p></form>`]]),
+    about: () => doc("About", "A careful pajama label.", "../assets/img/hen-lifestyle-l.webp", "Two children in matching short pajama sets", [["Why we started", `<p>It began with a familiar frustration: searching, again and again, for sleepwear that felt right on a child. Sets that fit poorly. Fabric that itched. Quality that disappointed, or prices that did not reflect what was inside.</p><p>mininmum is being built to remove that compromise, with a better fit, softer breathable fabric and design as thoughtful as the moments it lives in.</p>`], ["Fit. Fabric. Fashion.", `<p><b>Fit:</b> sleepwear that moves with a child, never tight and never loose, for ages two to six.</p><p><b>Fabric:</b> bamboo at the heart of the first sets, with Tencel modal and bamboo cotton in exploration.</p><p><b>Fashion:</b> calm colours and story-led prints that look lovely folded on a shelf.</p>`], ["Where we are", `<p>We are preparing to launch in Singapore and working with mills and makers who share our standard. Founded by ${facts.founder}.</p>`]]),
+    fabric: () => doc("Fabric story", "Bamboo, documented.", "../assets/img/butterfly-tile-hd.webp", "Close view of a peach story print on fabric", [["The fabric", `<p>Our first collection is planned in a bamboo viscose jersey, chosen for its soft feel, drape and breathability through long hours of sleep.</p>${specTable([["Composition", "95% bamboo viscose, 5% spandex"], ["Weight", "About 210 GSM"], ["Print", "Reactive digital print"], ["Status", "Working specification, being confirmed with the mill"]])}`], ["In exploration", `<p><b>Tencel modal</b> for a silkier hand-feel and <b>bamboo cotton</b> for everyday durability. Neither is confirmed for a collection yet.</p>`], ["Construction", `<ul>${products[0].construction.map((c) => `<li>${c}</li>`).join("")}<li>Waist bows are cut from the same fabric and anchored in place</li></ul>`], ["Care", `<ul>${products[0].care.map((c) => `<li>${c}</li>`).join("")}</ul><p class="fine" style="margin-top:16px">Confirmed fabric details and any test results will be published with each product before launch.</p>`]]),
+    "size-guide": () => doc("Size guide", "Sizes by age, lengths in centimetres.", null, null, [["See a size", stage(MIN.find("frost-pond-morning"))], ["Full chart", `<p>${sizeChart.note}</p>${sizeTable()}`], ["How to measure", `<p>Lay a well-fitting top flat. Measure from the highest point of the shoulder to the hem. For pants, measure from the top of the waistband to the hem along the side.</p><p>If your child is between sizes, compare with a set they wear now, or <a class="u" href="#contact">ask us</a>.</p>`]]),
+    contact: () => doc("Contact", "Talk to the founder.", null, null, [["Reach us", `<div class="cgrid"><div class="cbox"><span class="label">WhatsApp</span><span class="v">${facts.phone}</span><a class="btn line" href="${facts.whatsapp}" target="_blank" rel="noopener">Open WhatsApp</a></div><div class="cbox"><span class="label">Email</span><span class="v">${facts.email}</span><button class="btn line" type="button" data-copy="${facts.email}">Copy address</button></div></div>`], ["Send a message", `<form id="cform" novalidate><div class="field"><label for="n">Name</label><input id="n" autocomplete="name"></div><div class="field"><label for="e">Email</label><input id="e" type="email" autocomplete="email"></div><div class="field"><label for="m">Message</label><textarea id="m"></textarea></div><p style="margin-top:18px"><button class="btn" type="submit">Send</button></p><p class="fine" id="cstat" aria-live="polite" style="margin-top:12px"></p></form>`]]),
   };
-  function doc(kicker, title, sections) {
+  function doc(kicker, title, img, alt, sections) {
     const id = (t) => t.toLowerCase().replace(/[^a-z]+/g, "-");
-    return `<div class="wrap"><header class="phead"><span class="label">${kicker}</span><h1 style="margin-top:10px">${title}</h1></header>
+    return `<div class="wrap"><header class="phead"><span class="label">${kicker}</span><h1 style="margin-top:12px" class="doc-title">${title}</h1></header>
+      ${img ? `<div class="wide-img"><img src="${img}" alt="${alt}"></div>` : ""}
       <div class="doc"><aside class="side"><ul>${sections.map(([h]) => `<li><a href="#" data-jump="${id(h)}">${h}</a></li>`).join("")}</ul></aside>
       <div class="body">${sections.map(([h, b]) => `<h2 id="${id(h)}">${h}</h2>${b}`).join("")}</div></div></div>`;
   }
   function specTable(rows) { return `<div class="specs" style="margin-top:20px">${rows.map(([a, b]) => `<div class="r"><span>${a}</span><span>${b}</span></div>`).join("")}</div>`; }
 
-  /* ----- behaviour ----- */
+  let cleanup = null;
+  function wipeFromCursor(root) { $$(".item", root).forEach((it) => it.addEventListener("pointerenter", (e) => { const r = it.querySelector(".sq").getBoundingClientRect(); it.style.setProperty("--x", `${((e.clientX - r.left) / r.width) * 100}%`); it.style.setProperty("--y", `${((e.clientY - r.top) / r.height) * 100}%`); })); }
   function initHome() {
-    initFit(main, null);
-    seg($("#viewSeg"), (v) => $("#index").dataset.view = v);
+    MIN.splitWords($("#heroTitle"));
+    initStage($("#fitcard"));
+    seg($("#viewSeg"), (v) => ($("#index").dataset.view = v));
+    wipeFromCursor(main);
+    const img = $("#anImg"), pts = $$(".pt"), steps = $$(".an-steps li");
+    const activate = (i) => {
+      steps.forEach((s, j) => s.classList.toggle("on", j === i)); pts.forEach((p, j) => p.classList.toggle("on", j === i));
+      if (i < 0) { img.style.setProperty("--z", 1); return; }
+      img.style.setProperty("--ox", TOUR[i].x + "%"); img.style.setProperty("--oy", TOUR[i].y + "%"); img.style.setProperty("--z", MIN.reducedMotion() ? 1 : 1.9);
+    };
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) activate(+e.target.dataset.step); }), { rootMargin: "-45% 0px -45% 0px" });
+    steps.forEach((s) => io.observe(s));
+    const outer = new IntersectionObserver(([e]) => { if (!e.isIntersecting) activate(-1); }, { threshold: 0 });
+    outer.observe($(".an-steps"));
+    cleanup = () => { io.disconnect(); outer.disconnect(); };
   }
   function initShop() {
+    MIN.splitWords($(".doc-title"));
     const st = { sleeve: "All", colour: null };
-    const draw = () => {
+    const render = () => {
       const list = products.filter((p) => (st.sleeve === "All" || p.sleeve === st.sleeve) && (!st.colour || p.colour.name === st.colour));
       $("#index").innerHTML = list.length ? list.map(item).join("") : `<p class="empty">No sets match these filters. <button class="rm" type="button" id="clr">Clear filters</button></p>`;
       $("#countLine").textContent = `${list.length} of ${products.length} sets`;
+      wipeFromCursor(main);
       $("#clr")?.addEventListener("click", () => { st.colour = null; $$(".cbtn").forEach((b) => b.setAttribute("aria-pressed", false)); $("#sleeveSeg button").click(); });
     };
-    seg($("#sleeveSeg"), (v) => { st.sleeve = v; draw(); });
-    seg($("#layoutSeg"), (v) => $("#shopWrap").classList.toggle("listview", v === "list"));
-    $$(".cbtn").forEach((b) => b.addEventListener("click", () => { st.colour = st.colour === b.dataset.v ? null : b.dataset.v; $$(".cbtn").forEach((x) => x.setAttribute("aria-pressed", x.dataset.v === st.colour)); draw(); }));
-    draw();
+    const vt = (fn) => (document.startViewTransition && !MIN.reducedMotion() ? document.startViewTransition(fn) : fn());
+    seg($("#sleeveSeg"), (v) => { st.sleeve = v; vt(render); });
+    seg($("#layoutSeg"), (v) => vt(() => $("#shopWrap").classList.toggle("listview", v === "list")));
+    $$(".cbtn").forEach((b) => b.addEventListener("click", () => { st.colour = st.colour === b.dataset.v ? null : b.dataset.v; $$(".cbtn").forEach((x) => x.setAttribute("aria-pressed", x.dataset.v === st.colour)); vt(render); }));
+    render();
   }
-  function initProduct(p) {
+  function initProduct(p, shared) {
+    if (shared) $("#pdpHero").style.viewTransitionName = "shared";
+    wipeFromCursor(main);
     let size = null, qty = 1;
     const step = $("#sizeStep"), err = $("#err"), qOut = $("#qty"), dec = $('[data-q="-1"]');
     const sync = () => { $("#mbSel").textContent = size ? `Size ${size} · Qty ${qty}` : "Size not chosen"; };
-    seg($(".seg", step), (v, i) => { size = v; err.hidden = true; $("#pdpDiagram").hidden = false; $("#readout").hidden = false; setDiagram($("#pdpDiagram"), p, i); $("#readout").innerHTML = readout(p, i); $("#add").textContent = "Add to bag"; sync(); });
+    seg($(".seg", step), (v, i) => {
+      size = v; err.hidden = true; const d = $("#pdpDiagram"), r = $("#readout");
+      d.hidden = false; r.hidden = false;
+      setDiagram(d, p, i); updateReadout(r, shorts(p), i); $("#add").textContent = "Add to bag"; sync();
+    });
     $$("[data-q]").forEach((b) => b.addEventListener("click", () => { qty = Math.max(1, Math.min(bag.MAX, qty + +b.dataset.q)); qOut.textContent = qty; dec.disabled = qty <= 1; $('[data-q="1"]').disabled = qty >= bag.MAX; sync(); }));
     const add = () => {
-      if (!size) { err.hidden = false; step.scrollIntoView({ block: "center", behavior: MIN.reducedMotion() ? "auto" : "smooth" }); $(".seg button", step).focus(); return; }
-      bag.add(p.handle, size, qty); $("#add").textContent = "Added"; toast(p, `${p.title}<br><span class="mono">${size} · ×${qty}</span>`);
+      if (!size) { err.hidden = true; void err.offsetWidth; err.hidden = false; step.scrollIntoView({ block: "center", behavior: MIN.reducedMotion() ? "auto" : "smooth" }); $(".seg button", step).focus(); return; }
+      bag.add(p.handle, size, qty); $("#add").textContent = "Added ✓"; toast(p, `<b>${esc(p.title)}</b><br><span class="mono">${size} · ×${qty}</span>`);
     };
     $("#add").addEventListener("click", add);
     $("#mbBtn").onclick = add; $("#mbTitle").textContent = p.title; sync();
     document.body.classList.add("has-mbar");
     cleanup = () => document.body.classList.remove("has-mbar");
     $("#storyBtn").addEventListener("click", (e) => { const o = $("#storyMore").hidden; $("#storyMore").hidden = !o; e.target.setAttribute("aria-expanded", o); e.target.textContent = o ? "Show less" : "Read the rest"; });
-    // viewer
-    let vi = 0; const v = $("#viewer");
-    const showV = () => { const im = p.images[vi]; $("#vImg").src = im.src; $("#vImg").alt = im.alt; $("#vCount").textContent = `${vi + 1} / ${p.images.length}`; };
+    let vi = 0; const v = $("#viewer"), stg = $("#vStage");
+    const showV = () => { const im = p.images[vi]; $("#vImg").src = im.large; $("#vImg").alt = im.alt; $("#vCount").textContent = `${vi + 1} / ${p.images.length}`; stg.classList.remove("zoom"); };
     $$("#photos button").forEach((b) => b.addEventListener("click", () => { vi = +b.dataset.i; showV(); v.showModal(); }));
     $("#vPrev").onclick = () => { vi = (vi - 1 + p.images.length) % p.images.length; showV(); };
     $("#vNext").onclick = () => { vi = (vi + 1) % p.images.length; showV(); };
+    stg.onclick = (e) => { const r = stg.getBoundingClientRect(); $("#vImg").style.transformOrigin = `${((e.clientX - r.left) / r.width) * 100}% ${((e.clientY - r.top) / r.height) * 100}%`; stg.classList.toggle("zoom"); };
     v.onkeydown = (e) => { if (e.key === "ArrowLeft") $("#vPrev").click(); if (e.key === "ArrowRight") $("#vNext").click(); };
   }
   function initDoc() {
+    MIN.splitWords($(".doc-title"));
     $$("[data-jump]").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); document.getElementById(a.dataset.jump).scrollIntoView({ behavior: MIN.reducedMotion() ? "auto" : "smooth" }); }));
-    if ($("#fitcard")) initFit(main, null);
+    if ($("#fitcard")) initStage($("#fitcard"));
     $("#cform")?.addEventListener("submit", (e) => { e.preventDefault(); $("#cstat").textContent = "Not sent. This preview has no inbox connected; the live form will reach the founder."; });
   }
 
-  let cleanup = null;
-  MIN.onRoute((r) => {
+  document.addEventListener("click", (e) => { const a = e.target.closest("a[data-shared]"); if (a) MIN.markShared(a.querySelector("img")); });
+  MIN.onRoute((r) => MIN.transition((shared) => {
     cleanup?.(); cleanup = null;
     main.innerHTML = r.name === "product" ? views.product(r.product) : views[r.name]();
-    main.classList.remove("enter"); void main.offsetWidth; main.classList.add("enter");
     $$("[data-nav]").forEach((a) => a.dataset.nav === r.name ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
     document.title = (r.name === "product" ? r.product.title + " · " : r.name === "home" ? "" : { shop: "All sets · ", about: "About · ", fabric: "Fabric · ", "size-guide": "Size guide · ", contact: "Contact · " }[r.name]) + "mininmum · Measured";
     window.scrollTo(0, 0);
     if (r.name !== "home") main.focus({ preventScroll: true });
-    ({ home: initHome, shop: initShop, product: () => initProduct(r.product) }[r.name] || initDoc)();
+    ({ home: initHome, shop: initShop, product: () => initProduct(r.product, shared) }[r.name] || initDoc)();
     $("#menu").open && $("#menu").close();
-  });
+  }));
 
-  /* ----- bag ----- */
   const body = $("#bagBody"), n = $("#bagN");
   bag.subscribe((b) => {
     const prev = +n.textContent; n.textContent = b.count;
