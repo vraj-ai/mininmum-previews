@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>mininmum · Story Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Young+Serif&display=swap">
+<style>
+/* Layout: a centred picture-book column. Each print is a story; the page reads top to bottom like a book, with the print as endpaper. */
+:root{
+  --paper:#FEFDF9; --ink:#252932; --muted:#5B606B; --rule:#E7E2D6; --plate:#F6F2E8;
+  --ground:#FBF3E0; --accent:#2F4A3A;
+  --display:"Young Serif", Georgia, "Times New Roman", serif;
+  --text:"Literata", Georgia, "Times New Roman", serif;
+  --step-1:clamp(.82rem,.8rem + .1vw,.88rem); --step0:clamp(1.03rem,1rem + .2vw,1.12rem);
+  --step1:clamp(1.25rem,1.15rem + .5vw,1.5rem); --step2:clamp(1.6rem,1.35rem + 1.2vw,2.3rem);
+  --step3:clamp(2.1rem,1.6rem + 2.4vw,3.6rem);
+  --gutter:max(20px, env(safe-area-inset-left, 0px));
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:84px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 var(--step0)/1.65 var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+.wrap{padding-left:var(--gutter);padding-right:max(20px, env(safe-area-inset-right, 0px));max-width:1180px;margin-inline:auto}
+.narrow{max-width:680px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.12;text-wrap:balance;margin:0}
+p{margin:0}
+.kicker{font-size:var(--step-1);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--paper);z-index:30}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.logo img{height:22px;width:auto}
+.nav{display:flex;gap:28px;align-items:center}
+.nav a{text-decoration:none;font-size:.98rem}
+.nav a[aria-current="page"]{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
+.textbtn{background:none;border:0;padding:10px 4px;min-height:44px;cursor:pointer;font-size:1rem;display:inline-flex;align-items:center;gap:6px}
+.count{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 6px;border-radius:12px;background:var(--ink);color:var(--paper);font:600 .78rem/1 var(--text);font-variant-numeric:tabular-nums}
+.count.bump{animation:bump .5s var(--ease)}
+@keyframes bump{40%{transform:scale(1.25)}}
+.menu-btn{display:none}
+.notice{background:var(--ink);color:var(--paper);font-size:.84rem;text-align:center;padding:7px 16px;line-height:1.4}
+.notice a{color:inherit}
+@media (max-width:820px){.nav .hide-m{display:none}.menu-btn{display:inline-flex}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:4px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);text-decoration:none;font-size:1rem;cursor:pointer;transition:transform .2s var(--ease),background .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.link{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
+
+/* Route transition */
+main{display:block;min-height:60vh}
+main.enter{animation:enter .45s var(--ease)}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}}
+
+/* Endpaper hero */
+.endpaper{position:relative;background-color:var(--ground);padding-block:clamp(28px,6vw,72px) clamp(28px,5vw,56px);overflow:hidden;isolation:isolate}
+.endpaper .tile{position:absolute;inset:0;background-size:420px;background-repeat:repeat;opacity:.9;z-index:-1;transition:opacity .6s var(--ease)}
+.endpaper .tile.out{opacity:0}
+.page{position:relative;max-width:640px;margin-inline:auto;background:var(--paper);border-radius:3px;padding:clamp(26px,5vw,52px) clamp(22px,5vw,56px);box-shadow:0 1px 0 rgba(0,0,0,.04),0 18px 50px -18px rgba(37,41,50,.35)}
+.page::after{content:"";position:absolute;inset:auto 10px -6px;height:6px;background:var(--paper);border-radius:0 0 3px 3px;opacity:.7;box-shadow:0 8px 18px -10px rgba(37,41,50,.4)}
+.page h1{font-size:var(--step3);margin-top:14px}
+.page .lede{margin-top:16px;color:var(--muted);max-width:46ch}
+.story{margin-top:clamp(26px,4vw,36px);padding-top:clamp(22px,3vw,30px);border-top:1px solid var(--rule)}
+.story-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.story-head h2{font-size:var(--step1)}
+.story-head .kicker{white-space:nowrap}
+.verse{font-family:var(--display);font-size:var(--step2);line-height:1.25;margin-top:18px;min-height:3.75em;text-wrap:pretty}
+.verse.swap{animation:verse .55s var(--ease)}
+@keyframes verse{from{opacity:0;transform:translateY(8px)}}
+.story-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;flex-wrap:wrap}
+.dots{display:flex;gap:6px}
+.dots span{width:7px;height:7px;border-radius:50%;background:var(--rule);transition:background .3s}
+.dots span.on{background:var(--ink)}
+.turn{background:none;border:1px solid var(--ink);border-radius:4px;min-height:48px;padding:0 18px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.turn .arr{transition:transform .25s var(--ease)}
+.turn:hover .arr{transform:translateX(3px)}
+.spines{display:flex;justify-content:center;gap:10px;margin:28px auto 0;max-width:640px;flex-wrap:wrap}
+.spine{flex:1 1 0;min-width:130px;min-height:64px;border:1px solid rgba(37,41,50,.18);background:var(--sp);border-radius:3px;cursor:pointer;text-align:left;padding:10px 14px;display:flex;flex-direction:column;justify-content:center;gap:2px;box-shadow:inset 3px 0 0 rgba(0,0,0,.06);transition:transform .25s var(--ease),box-shadow .25s}
+.spine b{font:400 1.02rem/1.2 var(--display)}
+.spine small{font-size:.8rem;color:var(--muted)}
+.spine[aria-selected="true"]{transform:translateY(-4px);box-shadow:inset 3px 0 0 rgba(0,0,0,.06),0 0 0 2px var(--ink)}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+@media (max-width:560px){.spine{min-width:calc(50% - 5px)}.hero-cta .btn{flex:1 1 100%}}
+
+/* Plates */
+.section{padding-block:clamp(56px,9vw,112px)}
+.section-head{text-align:center;max-width:620px;margin:0 auto clamp(32px,5vw,56px)}
+.section-head h2{font-size:var(--step3);margin-top:10px}
+.section-head p.sub{margin-top:14px;color:var(--muted)}
+.plates{display:grid;gap:clamp(56px,8vw,96px)}
+.plate{display:grid;justify-items:center;text-align:center;gap:22px}
+.mat{background:var(--g,var(--plate));padding:clamp(14px,2.4vw,26px);border-radius:3px;width:min(100%,460px);transition:transform .5s var(--ease)}
+.mat .frame{aspect-ratio:4/5;overflow:hidden;background:var(--plate);border-radius:2px}
+.mat img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+a.plate-link:hover .mat img{transform:scale(1.03)}
+.plate h3{font-size:var(--step2)}
+.plate .meta{color:var(--muted);font-size:.95rem;margin-top:6px}
+.plate .line{max-width:42ch;margin:12px auto 0}
+.plate-actions{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:16px}
+.plate-link{text-decoration:none;display:block}
+
+/* Notes */
+.notes{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--plate)}
+.notes-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,4vw,56px)}
+.note h3{font-size:var(--step2)}
+.note p{margin-top:12px;color:var(--muted)}
+.note .tag{font-size:var(--step-1);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:block}
+@media (max-width:820px){.notes-grid{grid-template-columns:1fr}}
+.letter{max-width:620px;margin-inline:auto}
+.letter p+p{margin-top:1.1em}
+.letter .sig{font-family:var(--display);font-size:var(--step1);margin-top:28px}
+.listen{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;max-width:620px;margin:40px auto 0;padding:18px;border:1px solid var(--rule);border-radius:4px;text-decoration:none}
+.listen img{width:84px;height:84px;object-fit:cover;border-radius:2px}
+.listen b{font-family:var(--display);font-weight:400;font-size:1.15rem;display:block}
+
+/* Shop */
+.page-head{padding-block:clamp(36px,6vw,72px) clamp(20px,3vw,32px);text-align:center}
+.page-head h1{font-size:var(--step3);margin-top:10px}
+.page-head p.sub{margin:14px auto 0;color:var(--muted);max-width:52ch}
+.filters{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:center;align-items:center;padding-block:18px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.fgroup{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center}
+.fgroup>span{font-size:var(--step-1);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.chip{min-height:44px;padding:0 16px;border-radius:22px;border:1px solid var(--rule);background:var(--paper);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.chip[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.chip i{width:16px;height:16px;border-radius:50%;background:var(--sw);border:1px solid rgba(0,0,0,.12)}
+.result-note{text-align:center;color:var(--muted);font-size:.95rem;margin-top:18px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(36px,5vw,64px) clamp(20px,4vw,48px);margin-top:clamp(28px,4vw,48px)}
+.cards .plate{gap:16px}
+.cards .mat{width:100%}
+@media (max-width:640px){.cards{grid-template-columns:1fr}}
+.empty{text-align:center;padding:48px 0;color:var(--muted)}
+
+/* Product */
+.crumbs{font-size:.92rem;color:var(--muted);padding-top:22px}
+.crumbs a{color:inherit}
+.pdp{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(24px,5vw,72px);padding-top:20px;align-items:start}
+.gallery{display:grid;gap:14px}
+.gallery figure{margin:0;background:var(--g);padding:clamp(12px,2vw,22px);border-radius:3px}
+.gallery .frame{aspect-ratio:4/5;overflow:hidden;border-radius:2px;background:var(--plate)}
+.gallery .frame.sq{aspect-ratio:1}
+.gallery img{width:100%;height:100%;object-fit:cover}
+.gallery img.contain{object-fit:contain;background:#fff}
+.gallery figcaption{font-size:.85rem;color:var(--muted);margin-top:10px}
+.buy{position:sticky;top:96px;display:grid;gap:22px}
+.buy h1{font-size:var(--step3)}
+.buy .style{color:var(--muted)}
+.price{font-size:.95rem;color:var(--muted);border-top:1px solid var(--rule);padding-top:16px}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+legend{padding:0;display:flex;justify-content:space-between;width:100%;align-items:baseline;margin-bottom:10px;font-weight:500}
+legend button{background:none;border:0;padding:8px 0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;font-weight:400;color:var(--muted)}
+.sizes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sizes label{position:relative}
+.sizes input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.sizes span{display:grid;place-items:center;min-height:52px;border:1px solid var(--rule);border-radius:4px;font-variant-numeric:tabular-nums;transition:border-color .2s,box-shadow .2s,background .2s}
+.sizes input:checked+span{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);background:var(--plate)}
+.sizes input:focus-visible+span{outline:2px solid var(--ink);outline-offset:2px}
+.need{color:#9B3B2A;font-size:.92rem;margin-top:8px}
+.qty-row{display:flex;gap:12px;align-items:stretch}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--rule);border-radius:4px}
+.stepper button{width:48px;height:52px;background:none;border:0;cursor:pointer;font-size:1.2rem}
+.stepper output{min-width:28px;text-align:center;font-variant-numeric:tabular-nums}
+.qty-row .btn{flex:1}
+.demo-line{font-size:.88rem;color:var(--muted)}
+details{border-top:1px solid var(--rule)}
+details:last-of-type{border-bottom:1px solid var(--rule)}
+summary{list-style:none;cursor:pointer;min-height:56px;display:flex;align-items:center;justify-content:space-between;font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.3rem;transition:transform .25s var(--ease)}
+details[open] summary::after{transform:rotate(45deg)}
+details .body{padding-bottom:18px;color:var(--muted)}
+details ul{margin:0;padding-left:1.1em}
+details li+li{margin-top:4px}
+.sample{display:inline-block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--rule);border-radius:3px;padding:1px 6px;margin-left:6px;vertical-align:2px;color:var(--muted)}
+.story-full .page{max-width:680px}
+.story-full ol{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:14px;counter-reset:v}
+.story-full li{font-family:var(--display);font-size:var(--step1);line-height:1.35}
+.more{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.more .mat{width:100%;padding:12px}
+.more h3{font-size:1.25rem;margin-top:12px;text-align:center}
+@media (max-width:900px){
+  .pdp{grid-template-columns:1fr}
+  .buy{position:static}
+  .gallery{grid-auto-flow:column;grid-auto-columns:88%;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter);scrollbar-width:none}
+  .gallery::-webkit-scrollbar{display:none}
+  .gallery figure{scroll-snap-align:center}
+  .more{grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .more h3{font-size:1rem}
+}
+@media (max-width:520px){.more{grid-template-columns:1fr}.more .mat{padding:6px}.more .plate{display:grid;gap:16px;grid-template-columns:96px 1fr;justify-items:start;text-align:left;align-items:center}.more h3{text-align:left;margin:0}}
+.gal-count{display:none;font-size:.88rem;color:var(--muted);margin-top:8px}
+@media (max-width:900px){.gal-count{display:block}}
+
+/* Mobile buy bar */
+.buybar{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--paper);border-top:1px solid var(--rule);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;gap:12px;align-items:center;transform:translateY(110%);visibility:hidden;transition:transform .35s var(--ease),visibility .35s}
+.buybar.show{transform:none;visibility:visible}
+.buybar .t{flex:1;min-width:0;font-size:.92rem;line-height:1.3}
+.buybar .t b{display:block;font-family:var(--display);font-weight:400;font-size:1.02rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.buybar .btn{min-height:48px;padding:0 20px}
+@media (min-width:901px){.buybar{display:none}}
+
+/* Reading pages */
+.read{max-width:680px;margin-inline:auto;padding-bottom:clamp(56px,8vw,96px)}
+.read h2{font-size:var(--step2);margin:48px 0 14px}
+.read p+p{margin-top:1em}
+.read ul{padding-left:1.1em}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:10px 24px;margin:22px 0;padding:22px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0}
+.table-wrap{overflow-x:auto;margin:22px 0}
+table{border-collapse:collapse;width:100%;min-width:440px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:14px 12px;border-bottom:1px solid var(--rule)}
+th{font-weight:500}
+thead th{font-size:var(--step-1);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.contact-list{display:grid;gap:14px;margin:26px 0}
+.contact-item{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:18px;border:1px solid var(--rule);border-radius:4px}
+.contact-item b{display:block;font-weight:500}
+.contact-item span{color:var(--muted);user-select:all;word-break:break-all}
+.field{display:grid;gap:6px;margin-top:16px}
+.field input,.field textarea{border:1px solid var(--rule);border-radius:4px;padding:14px;background:var(--paper);min-height:52px;font-size:1rem}
+.field textarea{min-height:130px}
+.form-status{margin-top:14px;color:var(--muted)}
+
+/* Footer */
+footer{background:var(--plate);border-top:1px solid var(--rule);padding-block:48px calc(36px + env(safe-area-inset-bottom,0px));margin-top:clamp(40px,6vw,80px)}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
+.foot ul{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:4px}
+.foot a{text-decoration:none;display:inline-block;padding:6px 0}
+.foot p{color:var(--muted);font-size:.95rem;margin-top:12px;max-width:40ch}
+@media (max-width:720px){.foot{grid-template-columns:1fr 1fr}.foot>div:first-child{grid-column:1/-1}}
+
+/* Dialogs */
+dialog{border:0;padding:0;background:var(--paper);color:var(--ink);max-width:100%;max-height:100%}
+dialog::backdrop{background:rgba(37,41,50,.38);backdrop-filter:blur(2px)}
+.drawer{margin:0 0 0 auto;height:100%;width:min(440px,100%);flex-direction:column}
+.drawer[open],.menu-sheet[open],.modal[open]{display:flex;flex-direction:column}
+.drawer[open]{animation:drawer .38s var(--ease)}
+@keyframes drawer{from{transform:translateX(30px);opacity:0}}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--rule);padding-top:calc(16px + env(safe-area-inset-top,0px))}
+.drawer-head h2{font-size:1.5rem}
+.drawer-body{flex:1;overflow:auto;padding:8px 20px}
+.drawer-foot{border-top:1px solid var(--rule);padding:18px 20px calc(18px + env(safe-area-inset-bottom,0px));display:grid;gap:12px}
+.bag-line{display:grid;grid-template-columns:76px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.bag-line img{width:76px;height:95px;object-fit:cover;border-radius:2px;background:var(--plate)}
+.bag-line b{font-family:var(--display);font-weight:400;font-size:1.08rem}
+.bag-line .meta{color:var(--muted);font-size:.9rem}
+.bag-line .row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px}
+.bag-line .stepper button{width:44px;height:44px}
+.remove{background:none;border:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;color:var(--muted);min-height:44px;padding:0 4px}
+.bag-empty{padding:40px 0;text-align:center;color:var(--muted)}
+.bag-empty .btn{margin-top:20px}
+.total{display:flex;justify-content:space-between;font-size:.95rem}
+.total span:last-child{color:var(--muted)}
+.menu-sheet{width:100%;height:100%;margin:0}
+.menu-sheet[open]{animation:enter .3s var(--ease)}
+.menu-sheet nav{display:grid;padding:12px 24px}
+.menu-sheet nav a{font-family:var(--display);font-size:2rem;text-decoration:none;padding:12px 0;border-bottom:1px solid var(--rule)}
+.modal{width:min(640px,calc(100% - 32px));border-radius:6px;margin:auto}
+.modal .drawer-body{padding:8px 22px 22px}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--ink);color:var(--paper);padding:12px 16px 12px 20px;border-radius:6px;display:flex;gap:14px;align-items:center;z-index:40;transition:opacity .3s,transform .3s var(--ease);pointer-events:none;width:max-content;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{background:none;border:0;color:inherit;text-decoration:underline;text-underline-offset:4px;cursor:pointer;min-height:40px}
+@media (min-width:901px){.toast{bottom:28px}}
+
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="sr" href="#main">Skip to content</a>
+<div class="notice" role="note">Design preview with sample products. Nothing here can be bought. <a href="../">Compare directions</a></div>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="mininmum home"><img src="../assets/img/logo.png" alt="mininmum" width="117" height="22"></a>
+    <nav class="nav" aria-label="Main">
+      <a class="hide-m" href="#shop" data-nav="shop">Shop</a>
+      <a class="hide-m" href="#fabric" data-nav="fabric">Fabric</a>
+      <a class="hide-m" href="#size-guide" data-nav="size-guide">Size guide</a>
+      <a class="hide-m" href="#about" data-nav="about">About</a>
+      <button class="textbtn menu-btn" type="button" id="menuBtn" aria-haspopup="dialog">Menu</button>
+      <button class="textbtn" type="button" id="bagBtn" aria-haspopup="dialog">Bag <span class="count" id="bagCount">0</span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1"></main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <img src="../assets/img/logo.png" alt="mininmum" width="117" height="22">
+      <p>Pajama sets for children aged 2 to 6, made around bamboo fabric and a bedtime story in every print. From Singapore.</p>
+    </div>
+    <div><b>Shop</b><ul><li><a href="#shop">All sets</a></li><li><a href="#size-guide">Size guide</a></li><li><a href="#fabric">Fabric</a></li></ul></div>
+    <div><b>mininmum</b><ul><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li><li><a href="https://mininmum.com/listen/hen-farm-house" target="_blank" rel="noopener">Listen to a story</a></li></ul></div>
+  </div>
+</footer>
+
+<div class="buybar" id="buybar" aria-hidden="true"><div class="t"><b id="bbTitle"></b><span id="bbSize">Choose a size</span></div><button class="btn" type="button" id="bbBtn">Add to bag</button></div>
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastText"></span><button type="button" id="toastView">View bag</button></div>
+
+<dialog class="drawer" id="bag" aria-labelledby="bagTitle">
+  <div class="drawer-head"><h2 id="bagTitle">Your bag</h2><button class="textbtn" type="button" data-close>Close</button></div>
+  <div class="drawer-body" id="bagBody"></div>
+  <div class="drawer-foot" id="bagFoot">
+    <div class="total"><span>Subtotal</span><span>Prices are set at launch</span></div>
+    <button class="btn" type="button" disabled>Checkout opens at launch</button>
+    <p class="demo-line">This is a demo bag. It is saved only in this browser and no order is placed.</p>
+  </div>
+</dialog>
+
+<dialog class="menu-sheet" id="menu" aria-label="Menu">
+  <div class="drawer-head"><img src="../assets/img/logo.png" alt="mininmum" width="117" height="22"><button class="textbtn" type="button" data-close>Close</button></div>
+  <nav aria-label="Mobile">
+    <a href="#">Home</a><a href="#shop">Shop all sets</a><a href="#fabric">Fabric</a><a href="#size-guide">Size guide</a><a href="#about">About</a><a href="#contact">Contact</a>
+  </nav>
+</dialog>
+
+<dialog class="modal" id="sizeModal" aria-labelledby="sgTitle">
+  <div class="drawer-head" style="padding-top:16px"><h2 id="sgTitle">Size guide</h2><button class="textbtn" type="button" data-close>Close</button></div>
+  <div class="drawer-body" id="sizeModalBody"></div>
+</dialog>
+
+<script src="../assets/store.js"></script>
+<script>
+(() => {
+  const { products, SIZES, sizeChart, facts, esc } = MIN;
+  const bag = MIN.createBag("mininmum-story-shelf-bag");
+  const $ = (s, r = document) => r.querySelector(s);
+  const main = $("#main");
+  const tileOf = (p) => p.images.find((i) => i.kind === "print");
+  const heroImg = (p) => p.images.find((i) => i.kind === "on-child") || p.images[0];
+
+  /* ---------- shared fragments ---------- */
+  const plate = (p, opts = {}) => {
+    const im = heroImg(p);
+    return `<article class="plate" style="--g:${p.colour.hex}">
+      <a class="plate-link" href="#product/${p.handle}" aria-label="${esc(p.title)}, ${esc(p.style)}">
+        <div class="mat"><div class="frame"><img src="${im.src}" alt="${esc(im.alt)}" loading="lazy" decoding="async" width="1100" height="1375" style="object-position:${im.focus}"></div></div>
+      </a>
+      <div>
+        <h3>${esc(p.title)}</h3>
+        <p class="meta">${esc(p.style)} · Sizes 2–3Y to 5–6Y</p>
+        ${opts.short ? "" : `<p class="line">${esc(p.summary)}</p>`}
+        <div class="plate-actions"><a class="btn ghost" href="#product/${p.handle}">See the set</a>${opts.short ? "" : `<span class="demo-line">Price at launch</span>`}</div>
+      </div>
+    </article>`;
+  };
+  const sizeTable = () => `<p>${esc(sizeChart.note)}</p>
+    <div class="table-wrap"><table><thead><tr><th scope="col">Measurement</th>${SIZES.map((s) => `<th scope="col">${s}</th>`).join("")}</tr></thead>
+    <tbody>${sizeChart.rows.map((r) => `<tr><th scope="row">${r.label}</th>${r.values.map((v) => `<td>${v}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+
+  /* ---------- views ---------- */
+  const views = {
+    home() {
+      const p = products[0];
+      return `
+      <section class="endpaper" id="endpaper" style="--ground:${p.colour.hex}">
+        <div class="tile" id="tileA" style="background-image:url(${tileOf(p).small})"></div>
+        <div class="tile out" id="tileB"></div>
+        <div class="wrap">
+          <div class="page">
+            <p class="kicker">Pajama sets · ages 2 to 6</p>
+            <h1>Every print is a bedtime story.</h1>
+            <p class="lede">Soft bamboo sets for the ten to twelve hours your child spends in them. Read a story, then choose the set.</p>
+            <div class="story" aria-roledescription="story reader">
+              <div class="story-head"><h2 id="storyTitle">${esc(p.title)}</h2><span class="kicker" id="storyStep">Line 1 of ${p.story.length}</span></div>
+              <p class="verse" id="verse" aria-live="polite">${esc(p.story[0])}</p>
+              <div class="story-foot">
+                <div class="dots" id="dots" aria-hidden="true"></div>
+                <button class="turn" type="button" id="turn">Next line <span class="arr" aria-hidden="true">→</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="spines" role="tablist" aria-label="Choose a story">
+            ${products.map((q, i) => `<button class="spine" role="tab" type="button" aria-selected="${i === 0}" data-i="${i}" style="--sp:${q.colour.hex}"><b>${esc(q.title)}</b><small>${esc(q.style)}</small></button>`).join("")}
+          </div>
+          <div class="hero-cta"><a class="btn" id="heroShop" href="#product/${p.handle}">Shop ${esc(p.title)}</a><a class="btn ghost" href="#shop">See all four sets</a></div>
+        </div>
+      </section>
+
+      <section class="section"><div class="wrap">
+        <div class="section-head"><p class="kicker">The first four</p><h2>Four stories, four shapes</h2><p class="sub">Each set comes in sizes 2–3Y, 3–4Y, 4–5Y and 5–6Y.</p></div>
+        <div class="plates">${products.map((q) => plate(q)).join("")}</div>
+      </div></section>
+
+      <section class="section notes"><div class="wrap">
+        <div class="section-head"><p class="kicker">How we make them</p><h2>Fit. Fabric. Fashion.</h2></div>
+        <div class="notes-grid">
+          <div class="note"><span class="tag">Fit</span><h3>Moves with them</h3><p>A comfort fit, never tight and never loose, cut for ages two to six. The size is printed inside, so nothing scratches at the neck.</p></div>
+          <div class="note"><span class="tag">Fabric</span><h3>Bamboo first</h3><p>Our first sets are planned in a soft bamboo viscose jersey. Tencel modal and bamboo cotton are being explored for later.</p><p><a class="link" href="#fabric">Read about the fabric</a></p></div>
+          <div class="note"><span class="tag">Fashion</span><h3>Prints worth keeping</h3><p>Each print is drawn as a small scene with a story to read at bedtime. Calm colours that still look lovely folded on a shelf.</p></div>
+        </div>
+      </div></section>
+
+      <section class="section"><div class="wrap">
+        <div class="letter">
+          <p class="kicker">Why mininmum began</p>
+          <h2 style="font-size:var(--step3);margin:10px 0 26px">A house built on softness</h2>
+          <p>It began with a familiar frustration: searching, again and again, for sleepwear that truly felt right on a child. Sets that fit poorly. Fabric that itched. Quality that disappointed, or prices that did not reflect what was inside.</p>
+          <p>mininmum is our answer. A pajama label focused on softness, breathability and quietly beautiful design, made with intention for the hours that matter most.</p>
+          <p class="sig">Sweety Gupta, founder</p>
+        </div>
+        <a class="listen" href="https://mininmum.com/listen/hen-farm-house" target="_blank" rel="noopener">
+          <img src="../assets/img/hen-tile-s.webp" alt="" loading="lazy" width="84" height="84">
+          <span><b>The Hen Farm House is also a board book</b><span class="demo-line">Listen to it read aloud on mininmum.com ↗</span></span>
+        </a>
+      </div></section>`;
+    },
+
+    shop() {
+      return `
+      <header class="page-head wrap"><p class="kicker">Shop</p><h1>All pajama sets</h1><p class="sub">Four prints, each in its own shape. Every set comes in all four sizes, so you only need to choose by look and sleeve length.</p></header>
+      <div class="wrap">
+        <div class="filters" role="group" aria-label="Filter sets">
+          <div class="fgroup" data-group="sleeve"><span>Sleeve</span>
+            ${["All", "Short sleeve", "Long sleeve"].map((s, i) => `<button class="chip" type="button" aria-pressed="${i === 0}" data-v="${s}">${s}</button>`).join("")}
+          </div>
+          <div class="fgroup" data-group="colour"><span>Colour</span>
+            ${products.map((p) => `<button class="chip" type="button" aria-pressed="false" data-v="${p.colour.name}" style="--sw:${p.colour.hex}"><i aria-hidden="true"></i>${p.colour.name}</button>`).join("")}
+          </div>
+        </div>
+        <p class="result-note" id="resultNote" aria-live="polite">Showing all 4 sets</p>
+        <div class="cards" id="cards"></div>
+      </div>`;
+    },
+
+    product(p) {
+      const others = products.filter((q) => q !== p);
+      return `
+      <div class="wrap">
+        <p class="crumbs"><a href="#shop">All sets</a> / ${esc(p.title)}</p>
+        <div class="pdp">
+          <div>
+            <div class="gallery" id="gallery" style="--g:${p.colour.hex}" aria-label="Photos of ${esc(p.title)}">
+              ${p.images.map((im, i) => `<figure><div class="frame ${im.kind !== "on-child" ? "sq" : ""}"><img src="${im.src}" alt="${esc(im.alt)}" ${i ? 'loading="lazy"' : ""} decoding="async" class="${im.kind === "garment" ? "contain" : ""}" style="object-position:${im.focus}" width="1100" height="1100"></div><figcaption>${im.kind === "garment" ? "Front and back, laid flat" : im.kind === "print" ? "The print, up close" : "Worn"}</figcaption></figure>`).join("")}
+            </div>
+            <p class="gal-count" id="galCount">Photo 1 of ${p.images.length} · swipe for more</p>
+          </div>
+          <form class="buy" id="buy" novalidate>
+            <div>
+              <p class="kicker">${esc(p.style)}</p>
+              <h1 style="margin-top:10px">${esc(p.title)}</h1>
+              <p class="style" style="margin-top:12px">${esc(p.line)}</p>
+            </div>
+            <p class="price">Price will be shown at launch <span class="sample">Preview</span></p>
+            <fieldset id="sizeSet">
+              <legend><span>Size</span><button type="button" data-open-size>Size guide</button></legend>
+              <div class="sizes">${p.sizes.map((s) => `<label><input type="radio" name="size" value="${s}"><span>${s}</span></label>`).join("")}</div>
+              <p class="need" id="need" hidden>Choose a size to add this set.</p>
+            </fieldset>
+            <div class="qty-row">
+              <div class="stepper" role="group" aria-label="Quantity"><button type="button" data-q="-1" aria-label="Decrease quantity">−</button><output id="qty" aria-live="polite">1</output><button type="button" data-q="1" aria-label="Increase quantity">+</button></div>
+              <button class="btn" type="submit" id="addBtn">Add to bag</button>
+            </div>
+            <p class="demo-line">Demo bag only. No payment or order is taken.</p>
+            <div>
+              <details open><summary>About this set</summary><div class="body"><p>${esc(p.summary)}</p><ul style="margin-top:10px">${p.details.map((d) => `<li>${esc(d)}</li>`).join("")}</ul></div></details>
+              <details><summary>Fabric and care</summary><div class="body"><p><b style="color:var(--ink);font-weight:500">${p.fabric.headline}</b>, ${p.fabric.composition}, ${p.fabric.weight}.</p><p style="margin-top:8px">${p.fabric.status}</p><ul style="margin-top:10px">${p.care.map((c) => `<li>${c}</li>`).join("")}</ul></div></details>
+              <details><summary>Fit and safety</summary><div class="body"><ul>${p.construction.map((c) => `<li>${c}</li>`).join("")}</ul><p style="margin-top:10px"><button type="button" class="remove" data-open-size style="padding:0">Compare measurements</button></p></div></details>
+              <details><summary>Delivery and returns</summary><div class="body"><p>${facts.shipping}</p></div></details>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <section class="endpaper story-full section" style="--ground:${p.colour.hex};margin-top:clamp(48px,7vw,96px)">
+        <div class="tile" style="background-image:url(${tileOf(p).small})"></div>
+        <div class="wrap"><div class="page">
+          <p class="kicker">The story in this print</p>
+          <h2 style="font-size:var(--step2);margin-top:10px">${esc(p.title)}</h2>
+          <ol>${p.story.map((l) => `<li>${esc(l)}</li>`).join("")}</ol>
+          ${p.listen ? `<p style="margin-top:22px"><a class="link" href="${p.listen}" target="_blank" rel="noopener">Listen to the board book version ↗</a></p>` : ""}
+        </div></div>
+      </section>
+
+      <section class="section"><div class="wrap">
+        <div class="section-head" style="margin-bottom:28px"><h2 style="font-size:var(--step2)">Other stories</h2></div>
+        <div class="more">${others.map((q) => { const im = heroImg(q); return `<a class="plate plate-link" href="#product/${q.handle}" style="--g:${q.colour.hex}"><div class="mat"><div class="frame"><img src="${im.small}" alt="" loading="lazy" style="object-position:${im.focus}"></div></div><h3>${esc(q.title)}</h3></a>`; }).join("")}</div>
+      </div></section>`;
+    },
+
+    about() {
+      return `<header class="page-head wrap"><p class="kicker">About</p><h1>A pajama house from Singapore</h1></header>
+      <div class="wrap"><div class="read">
+        <p>It began with a familiar frustration: searching for sleepwear that truly felt right on a child. Sets that fit poorly. Fabric that itched. Quality that disappointed, or prices that did not reflect what was inside.</p>
+        <p>Children spend ten to twelve hours of every day in their pajamas. mininmum is being built around one belief: those hours deserve fabric, fit and design as considered as anything else they wear.</p>
+        <h2>What guides every set</h2>
+        <dl class="facts"><dt>Fit</dt><dd>Comfortable proportions for ages two to six.</dd><dt>Fabric</dt><dd>Bamboo at the heart of the first collection.</dd><dt>Fashion</dt><dd>Calm colours and prints with a story to read.</dd></dl>
+        <h2>Where we are</h2>
+        <p>We are preparing to launch in Singapore, working with fabric mills and makers who share our standard. The sets on this page are design samples for review.</p>
+        <p style="margin-top:28px"><a class="btn" href="#contact">Get in touch</a></p>
+      </div></div>`;
+    },
+
+    fabric() {
+      return `<header class="page-head wrap"><p class="kicker">Fabric story</p><h1>Where every set begins</h1><p class="sub">Before the print and before the first stitch, there is the fabric.</p></header>
+      <div class="wrap"><div class="read">
+        <div class="mat" style="--g:#E9EEF1;width:100%;margin-bottom:28px"><div class="frame" style="aspect-ratio:3/2"><img src="../assets/img/frost-tile.webp" alt="Close view of a soft printed pajama fabric" loading="lazy"></div></div>
+        <h2 style="margin-top:0">Bamboo, first</h2>
+        <p>Our first collection is planned in a bamboo viscose jersey. We chose it for the way it feels, falls and breathes through long hours of sleep.</p>
+        <dl class="facts"><dt>Working spec</dt><dd>95% bamboo viscose, 5% spandex</dd><dt>Weight</dt><dd>About 210 GSM</dd><dt>Print</dt><dd>Reactive digital print</dd><dt>Status</dt><dd>Being confirmed with our mill</dd></dl>
+        <h2>Still exploring</h2>
+        <p><b style="font-weight:500">Tencel modal</b> for its silky hand-feel, and <b style="font-weight:500">bamboo cotton</b> for everyday durability. Both are in exploration and may arrive in later editions.</p>
+        <h2>Details you will notice</h2>
+        <ul>${products[0].construction.map((c) => `<li>${c}</li>`).join("")}<li>Waist bows are made from the same fabric and stitched in place</li></ul>
+        <h2>Caring for bamboo</h2>
+        <ul>${products[0].care.map((c) => `<li>${c}</li>`).join("")}</ul>
+        <p style="margin-top:20px" class="demo-line">We will publish confirmed fabric details and any testing with each product before launch.</p>
+      </div></div>`;
+    },
+
+    "size-guide"() {
+      return `<header class="page-head wrap"><p class="kicker">Size guide</p><h1>Finding the right size</h1><p class="sub">Sets come in four sizes for ages two to six.</p></header>
+      <div class="wrap"><div class="read">
+        ${sizeTable()}
+        <h2>How to compare</h2>
+        <p>Lay a top your child wears often on a flat surface. Measure from the highest point of the shoulder down to the hem, and compare with the top length above. Do the same for pants, from waistband to hem.</p>
+        <h2>Between sizes?</h2>
+        <p>Use the lengths above with a set that already fits well. If you are unsure, message us and we will help.</p>
+        <p style="margin-top:24px"><a class="btn ghost" href="#contact">Ask about sizing</a></p>
+      </div></div>`;
+    },
+
+    contact() {
+      return `<header class="page-head wrap"><p class="kicker">Contact</p><h1>We are happy to help</h1><p class="sub">Questions about sizing, fabric or gifting. Messages are answered by the founder.</p></header>
+      <div class="wrap"><div class="read">
+        <div class="contact-list">
+          <div class="contact-item"><div><b>WhatsApp</b><span>${facts.phone}</span></div><a class="btn ghost" href="${facts.whatsapp}" target="_blank" rel="noopener">Open WhatsApp</a></div>
+          <div class="contact-item"><div><b>Email</b><span>${facts.email}</span></div><button class="btn ghost" type="button" data-copy="${facts.email}">Copy email</button></div>
+        </div>
+        <h2>Send a note</h2>
+        <form id="contactForm" novalidate>
+          <div class="field"><label for="cName">Your name</label><input id="cName" autocomplete="name"></div>
+          <div class="field"><label for="cEmail">Email</label><input id="cEmail" type="email" autocomplete="email"></div>
+          <div class="field"><label for="cMsg">Message</label><textarea id="cMsg"></textarea></div>
+          <p style="margin-top:18px"><button class="btn" type="submit">Send message</button></p>
+          <p class="form-status" id="formStatus" aria-live="polite"></p>
+        </form>
+      </div></div>`;
+    },
+  };
+
+  /* ---------- behaviours per view ---------- */
+  function initHome() {
+    let si = 0, li = 0;
+    const verse = $("#verse"), step = $("#storyStep"), title = $("#storyTitle"), dots = $("#dots"), shop = $("#heroShop");
+    const end = $("#endpaper");
+    let front = $("#tileA"), back = $("#tileB");
+    const drawDots = () => { const s = products[si].story; dots.innerHTML = s.map((_, i) => `<span class="${i === li ? "on" : ""}"></span>`).join(""); };
+    const show = () => {
+      const s = products[si].story;
+      verse.textContent = s[li];
+      verse.classList.remove("swap"); void verse.offsetWidth; verse.classList.add("swap");
+      step.textContent = `Line ${li + 1} of ${s.length}`;
+      $("#turn").innerHTML = li === s.length - 1 ? `Read it again <span class="arr" aria-hidden="true">↺</span>` : `Next line <span class="arr" aria-hidden="true">→</span>`;
+      drawDots();
+    };
+    $("#turn").addEventListener("click", () => { li = (li + 1) % products[si].story.length; show(); });
+    const tabs = [...document.querySelectorAll(".spine")];
+    const choose = (i) => {
+      if (i === si) return;
+      si = i; li = 0; const p = products[si];
+      tabs.forEach((t, j) => { t.setAttribute("aria-selected", j === si); t.tabIndex = j === si ? 0 : -1; });
+      title.textContent = p.title; end.style.setProperty("--ground", p.colour.hex);
+      back.style.backgroundImage = `url(${tileOf(p).small})`; back.classList.remove("out"); front.classList.add("out");
+      [front, back] = [back, front];
+      shop.href = `#product/${p.handle}`; shop.textContent = `Shop ${p.title}`;
+      show();
+    };
+    tabs.forEach((t, j) => { t.tabIndex = j === 0 ? 0 : -1; t.addEventListener("click", () => choose(j)); t.addEventListener("keydown", (e) => {
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (!d) return;
+      e.preventDefault(); const n = (si + d + tabs.length) % tabs.length; choose(n); tabs[n].focus();
+    }); });
+    drawDots();
+  }
+
+  function initShop() {
+    const state = { sleeve: "All", colour: null };
+    const render = () => {
+      const list = products.filter((p) => (state.sleeve === "All" || p.sleeve === state.sleeve) && (!state.colour || p.colour.name === state.colour));
+      $("#cards").innerHTML = list.length ? list.map((p) => plate(p, { short: false })).join("") : `<p class="empty">No sets match. <button class="remove" type="button" id="reset">Clear filters</button></p>`;
+      $("#resultNote").textContent = list.length === products.length ? "Showing all 4 sets" : `Showing ${list.length} of ${products.length} sets`;
+      $("#reset")?.addEventListener("click", () => { state.sleeve = "All"; state.colour = null; sync(); });
+    };
+    const sync = () => {
+      document.querySelectorAll('[data-group="sleeve"] .chip').forEach((c) => c.setAttribute("aria-pressed", c.dataset.v === state.sleeve));
+      document.querySelectorAll('[data-group="colour"] .chip').forEach((c) => c.setAttribute("aria-pressed", c.dataset.v === state.colour));
+      render();
+    };
+    document.querySelectorAll(".chip").forEach((c) => c.addEventListener("click", () => {
+      const g = c.closest(".fgroup").dataset.group;
+      if (g === "sleeve") state.sleeve = c.dataset.v; else state.colour = state.colour === c.dataset.v ? null : c.dataset.v;
+      sync();
+    }));
+    render();
+  }
+
+  function initProduct(p) {
+    const form = $("#buy"), need = $("#need"), qtyOut = $("#qty"), addBtn = $("#addBtn");
+    let qty = 1;
+    const size = () => form.querySelector('input[name="size"]:checked')?.value;
+    form.querySelectorAll("[data-q]").forEach((b) => b.addEventListener("click", () => { qty = Math.max(1, Math.min(bag.MAX, qty + +b.dataset.q)); qtyOut.textContent = qty; }));
+    form.addEventListener("change", () => { need.hidden = true; $("#bbSize").textContent = `Size ${size()}`; addBtn.textContent = "Add to bag"; });
+    const add = () => {
+      const s = size();
+      if (!s) { need.hidden = false; form.querySelector('input[name="size"]').focus(); $("#sizeSet").scrollIntoView({ block: "center", behavior: MIN.reducedMotion() ? "auto" : "smooth" }); return; }
+      bag.add(p.handle, s, qty);
+      addBtn.textContent = `Added · ${s}`;
+      toast(`${p.title}, ${s}${qty > 1 ? ` × ${qty}` : ""} added`);
+    };
+    form.addEventListener("submit", (e) => { e.preventDefault(); add(); });
+    // mobile gallery counter
+    const gal = $("#gallery"), count = $("#galCount");
+    gal.addEventListener("scroll", () => { const i = Math.round(gal.scrollLeft / (gal.firstElementChild.offsetWidth + 10)); count.textContent = `Photo ${Math.min(i + 1, p.images.length)} of ${p.images.length} · swipe for more`; }, { passive: true });
+    // mobile buy bar appears once the main button leaves the screen
+    const bar = $("#buybar");
+    $("#bbTitle").textContent = p.title;
+    $("#bbSize").textContent = "Choose a size";
+    $("#bbBtn").onclick = add;
+    const io = new IntersectionObserver(([e]) => { const show = !e.isIntersecting && e.boundingClientRect.top < 0; bar.classList.toggle("show", show); bar.setAttribute("aria-hidden", !show); });
+    io.observe(addBtn.closest(".qty-row"));
+    cleanup = () => { io.disconnect(); bar.classList.remove("show"); bar.setAttribute("aria-hidden", "true"); };
+  }
+
+  function initContact() {
+    $("#contactForm").addEventListener("submit", (e) => { e.preventDefault(); $("#formStatus").textContent = "This preview does not send messages. In the live shop, this form will reach the founder's inbox."; });
+  }
+
+  /* ---------- router ---------- */
+  let cleanup = null;
+  MIN.onRoute((r) => {
+    cleanup?.(); cleanup = null;
+    const html = r.name === "product" ? views.product(r.product) : views[r.name]();
+    main.innerHTML = html;
+    main.classList.remove("enter"); void main.offsetWidth; main.classList.add("enter");
+    document.querySelectorAll("[data-nav]").forEach((a) => a.dataset.nav === r.name ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
+    document.title = (r.name === "product" ? r.product.title + " · " : r.name === "home" ? "" : ({ shop: "Shop", about: "About", fabric: "Fabric", "size-guide": "Size guide", contact: "Contact" }[r.name] + " · ")) + "mininmum · Story Shelf";
+    window.scrollTo(0, 0);
+    if (r.name !== "home") main.focus({ preventScroll: true });
+    if (r.name === "home") initHome();
+    if (r.name === "shop") initShop();
+    if (r.name === "product") initProduct(r.product);
+    if (r.name === "contact") initContact();
+    $("#menu").open && $("#menu").close();
+  });
+
+  /* ---------- bag ---------- */
+  const bagDlg = $("#bag"), body = $("#bagBody"), count = $("#bagCount");
+  bag.subscribe((b) => {
+    const prev = +count.textContent; count.textContent = b.count;
+    if (b.count > prev) { count.classList.remove("bump"); void count.offsetWidth; count.classList.add("bump"); }
+    $("#bagBtn").setAttribute("aria-label", `Bag, ${b.count} ${b.count === 1 ? "item" : "items"}`);
+    body.innerHTML = b.lines.length ? b.lines.map((l) => { const im = heroImg(l.product); return `<div class="bag-line">
+      <img src="${im.small}" alt="" style="object-position:${im.focus}">
+      <div><b>${esc(l.product.title)}</b><div class="meta">${esc(l.product.style)} · Size ${l.size}</div><div class="meta">Price at launch</div>
+        <div class="row"><div class="stepper" role="group" aria-label="Quantity for ${esc(l.product.title)} ${l.size}"><button type="button" data-h="${l.handle}" data-s="${l.size}" data-d="-1" aria-label="Decrease">−</button><output>${l.qty}</output><button type="button" data-h="${l.handle}" data-s="${l.size}" data-d="1" aria-label="Increase" ${l.qty >= bag.MAX ? "disabled" : ""}>+</button></div>
+        <button class="remove" type="button" data-rm="${l.handle}|${l.size}">Remove</button></div></div></div>`; }).join("")
+      : `<div class="bag-empty"><p>Your bag is empty.</p><a class="btn ghost" href="#shop" data-close>Browse the sets</a></div>`;
+    $("#bagFoot").hidden = !b.lines.length;
+  });
+  body.addEventListener("click", (e) => {
+    const t = e.target.closest("button,a"); if (!t) return;
+    if (t.dataset.d) { const l = bag.lines.find((x) => x.handle === t.dataset.h && x.size === t.dataset.s); bag.setQty(t.dataset.h, t.dataset.s, l.qty + +t.dataset.d); body.querySelector(`[data-h="${t.dataset.h}"][data-s="${t.dataset.s}"][data-d="${t.dataset.d}"]`)?.focus(); }
+    if (t.dataset.rm) { const [h, s] = t.dataset.rm.split("|"); bag.remove(h, s); body.querySelector("button, a")?.focus(); }
+  });
+  $("#bagBtn").addEventListener("click", () => bagDlg.showModal());
+  $("#menuBtn").addEventListener("click", () => $("#menu").showModal());
+  document.querySelectorAll("dialog").forEach((d) => {
+    d.addEventListener("click", (e) => { if (e.target === d || e.target.closest("[data-close]")) d.close(); });
+    d.querySelectorAll("nav a").forEach((a) => a.addEventListener("click", () => d.close()));
+  });
+  document.addEventListener("click", (e) => {
+    const o = e.target.closest("[data-open-size]"); if (o) { $("#sizeModalBody").innerHTML = sizeTable() + `<p><a class="link" href="#size-guide" data-close>Open the full size guide</a></p>`; $("#sizeModal").showModal(); }
+    const c = e.target.closest("[data-copy]"); if (c) { navigator.clipboard?.writeText(c.dataset.copy).then(() => { c.textContent = "Copied"; }, () => { c.textContent = c.dataset.copy; }); }
+  });
+
+  let tt;
+  function toast(text) { const t = $("#toast"); $("#toastText").textContent = text; t.classList.add("show"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 3600); }
+  $("#toastView").addEventListener("click", () => { $("#toast").classList.remove("show"); bagDlg.showModal(); });
+})();
+</script>
+</body>
+</html>
