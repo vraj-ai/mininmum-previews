@@ -221,6 +221,8 @@
       render(r); rendered = true;
     };
     window.addEventListener("hashchange", go);
+    // Clicking a link to the hash we are already on fires no hashchange (a second skip-link press), so handle it directly.
+    document.addEventListener("click", (e) => { const a = e.target.closest?.('a[href^="#"]'); if (a && a.getAttribute("href") === location.hash && parseRoute().anchor) go(); });
     go();
   }
 

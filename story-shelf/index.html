@@ -1119,7 +1119,8 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
     const loop = () => { x += (tx - x) * .2; y += (ty - y) * .2; c.style.transform = `translate3d(${x}px,${y}px,0)`; if (Math.abs(tx - x) > .1 || Math.abs(ty - y) > .1) requestAnimationFrame(loop); else running = false; };
     addEventListener("pointermove", (e) => {
       tx = e.clientX; ty = e.clientY;
-      if (!running) { running = true; x = tx; y = ty; loop(); }
+      if (!c.classList.contains("show")) { x = tx; y = ty; } // place it under the pointer only the first time it appears
+      if (!running) { running = true; loop(); }
       c.classList.add("show");
       const t = e.target.closest?.("[data-cursor]");
       if (t) { label.textContent = t.dataset.cursor; c.classList.add("big"); } else c.classList.remove("big");
