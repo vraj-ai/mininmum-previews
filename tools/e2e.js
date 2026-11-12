@@ -103,9 +103,12 @@ async (page) => {
         await page.click('#fitcard [role="radio"][data-v="5–6Y"]');
         res.steps.push("fit readout " + (await page.textContent("#readout")).replace(/\s+/g, " "));
         await page.goto(BASE + c + "/#shop");
+        await page.waitForTimeout(1200); // the shop renders inside a view transition; clicking earlier hits the outgoing page
         await page.click('#sleeveSeg [data-v="Long sleeve"]');
+        await page.waitForTimeout(300);
         res.steps.push("filter long: " + (await page.textContent("#countLine")));
         await page.click('#layoutSeg [data-v="list"]');
+        await page.waitForTimeout(300);
         res.steps.push("list view " + (await page.evaluate(() => document.querySelector("#shopWrap").classList.contains("listview"))));
       }
       out.push(res);
