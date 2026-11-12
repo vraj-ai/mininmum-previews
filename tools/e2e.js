@@ -14,7 +14,7 @@ async (page) => {
       await page.evaluate(() => { try { localStorage.clear(); } catch (e) {} });
       for (const r of routes) {
         await page.goto(BASE + c + "/" + r);
-        await page.waitForTimeout(250);
+        await page.waitForTimeout(1050); // let the page-change view transition finish before measuring
         // scroll through to trigger lazy images
         await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 40)); } window.scrollTo(0, 0); });
         await page.waitForTimeout(400);
@@ -78,12 +78,25 @@ async (page) => {
         res.steps.push("room switch title " + (await page.textContent("#tipTitle")));
       }
       if (c === "story-shelf") {
-        await page.goto(BASE + c + "/");
+        // product page: the story book turns
+        await page.goto(BASE + c + "/#product/frost-pond-morning");
+        await page.waitForTimeout(1200);
+        await page.locator("#turn").scrollIntoViewIfNeeded();
         const v1 = await page.textContent("#verse");
         await page.click("#turn");
+        await page.waitForTimeout(1300);
         const v2 = await page.textContent("#verse");
-        await page.click('.spine[data-i="2"]');
-        res.steps.push("verse advanced " + (v1 !== v2) + ", story now " + (await page.textContent("#storyTitle")) + ", cta " + (await page.getAttribute("#heroShop", "href")));
+        // home: scrolling tells the bedtime story line by line, and the last line offers the set
+        await page.goto(BASE + c + "/");
+        const [top, span] = await page.evaluate(() => { const s = document.querySelector("#tonight"); return [s.offsetTop, s.offsetHeight - innerHeight]; });
+        await page.evaluate((y) => scrollTo(0, y), top + span * 0.5);
+        await page.waitForTimeout(500);
+        const mid = await page.evaluate(() => [document.querySelector("#stFolio").textContent, document.body.classList.contains("dark-head")]);
+        await page.click('.st-tab[data-i="2"]');
+        await page.evaluate((y) => scrollTo(0, y), top + span);
+        await page.waitForTimeout(600);
+        const end = await page.evaluate(() => [document.querySelector("#stTitle").textContent, document.querySelector("#stFolio").textContent, document.querySelector("#tonight").classList.contains("end"), document.querySelector("#stShop").getAttribute("href")]);
+        res.steps.push(`book turned ${v1 !== v2}; night mid ${mid.join(" ")}; end ${end.join(" ")}`);
       }
       if (c === "measured") {
         await page.goto(BASE + c + "/");

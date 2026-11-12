@@ -201,7 +201,8 @@
   // ---- Hash routing: #shop, #product/<handle>, #about, #fabric, #size-guide, #contact
   const ROUTES = ["home", "shop", "product", "about", "fabric", "size-guide", "contact"];
   function parseRoute() {
-    const h = decodeURIComponent(location.hash.replace(/^#/, ""));
+    let h = "";
+    try { h = decodeURIComponent(location.hash.replace(/^#/, "")); } catch (e) { /* malformed hash such as #%zz: treat as home */ }
     const [name, arg] = h.split("/");
     if (!name) return { name: "home" };
     if (name === "product") {
@@ -211,7 +212,14 @@
     return ROUTES.includes(name) ? { name } : { name: "home", anchor: name };
   }
   function onRoute(render) {
-    const go = () => render(parseRoute());
+    let rendered = false;
+    const go = () => {
+      const r = parseRoute();
+      // A hash that names an element already on the page (the skip link's #main) moves focus there instead of re-routing.
+      const el = rendered && r.anchor && document.getElementById(r.anchor);
+      if (el) { if (!el.hasAttribute("tabindex")) el.tabIndex = -1; el.focus({ preventScroll: true }); el.scrollIntoView(); return; }
+      render(r); rendered = true;
+    };
     window.addEventListener("hashchange", go);
     go();
   }
