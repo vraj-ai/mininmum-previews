@@ -41,7 +41,7 @@
       colour: { name: "Butter cream", hex: "#FBF3E0", ink: "#2F4A3A" },
       line: "Notched collar with soft piping, button front and easy shorts.",
       summary:
-        "A farmyard at the end of the day. Hens put away their eggs, chicks follow them home, and the cats keep watch from the fence. A short set for warm Singapore nights.",
+        "A farmyard at the end of the day. Hens put away their eggs, chicks follow them home, and the cats keep watch from the fence. A short set with easy shorts.",
       details: ["Notched collar with contrast piping", "Short sleeves, button front", "Elastic-waist shorts"],
       story: [
         "Where would the little chicks sleep when the hens came home?",
@@ -68,7 +68,7 @@
       colour: { name: "Ice blue", hex: "#CFE6F2", ink: "#3E6E9E" },
       line: "Round neck, ribbed cuffs and cuffed pants that stay put.",
       summary:
-        "A village pond frozen overnight. Rabbit skates, Mouse pushes a sled, Duck slides on her tummy and Hedgehog warms his paws. A long set for air-conditioned rooms.",
+        "A village pond frozen overnight. Rabbit skates, Mouse pushes a sled, Duck slides on her tummy and Hedgehog warms his paws. A long set with cuffs at the wrist and ankle.",
       details: ["Round neck, pull-on top", "Long sleeves with ribbed cuffs", "Elastic waist, cuffed ankles"],
       story: [
         "The pond turned to glass overnight. Who would try it first?",
@@ -161,7 +161,7 @@
     whatsapp: "https://wa.me/6589001102",
     city: "Singapore",
     shipping:
-      "We will ship within Singapore from our own stock. Delivery times, fees and the returns window will be published before launch.",
+      "Delivery coverage, fees, times and the returns and exchanges policy will be published here before launch.",
     demo: "Design preview. Products, photos and details are samples for review. Nothing can be bought here.",
   };
 

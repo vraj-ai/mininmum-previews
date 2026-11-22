@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:,">
-<title>mininmum · Story Shelf</title>
+<title>MiniNMum · Story Shelf</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&display=swap">
@@ -104,7 +104,7 @@ main:focus{outline:none}
 .hero{position:relative;min-height:max(640px,calc(100svh - 104px));display:grid;grid-template-rows:auto 1fr auto;padding-block:clamp(16px,2.4vw,32px) clamp(20px,3vw,40px);overflow:clip;isolation:isolate}
 .hero-meta{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .hero-mid{position:relative;display:grid;place-items:center;padding-block:clamp(40px,7vh,96px)}
-.hero-title{font-size:var(--mega);text-align:center;line-height:.9;letter-spacing:-.045em;font-weight:520;position:relative;z-index:2}
+.hero-title{font-size:clamp(3rem,1rem + 8.4vw,10.5rem);text-align:center;line-height:.9;letter-spacing:-.045em;font-weight:520;position:relative;z-index:2}
 .hero-title .ln{display:block;overflow:hidden;padding:.02em .06em .1em;margin-bottom:-.1em}
 .hero-title .ln>span{display:inline-block;animation:rise 1.15s var(--ease) backwards;animation-delay:calc(var(--i) * 90ms + 120ms)}
 .hero-title em{font-weight:300;letter-spacing:-.04em;position:relative;display:inline-block}
@@ -158,7 +158,7 @@ main:focus{outline:none}
 @media (max-width:760px){
   .hero{min-height:0}
   .hero-mid{display:block;padding-block:28px 0}
-  .hero-title{font-size:clamp(3.1rem,15.5vw,6rem)}
+  .hero-title{font-size:clamp(2.6rem,12.4vw,5.4rem)}
   .collage{position:relative;height:380px;margin-top:20px}
   .note.n1{position:relative;left:auto;right:auto;bottom:auto;margin:6px auto 0;display:block;width:max-content}
   .p1{left:2%;top:30px;width:40vw}.p2{right:3%;top:0;width:38vw}.p3{left:24%;top:auto;bottom:0;width:30vw}.p4{right:4%;bottom:26px;width:42vw}
@@ -272,6 +272,10 @@ main:focus{outline:none}
 .book:hover .b-inside span{opacity:1}
 .book h3{font-size:var(--step1)}
 .book .meta{color:var(--muted);font-size:.95rem;margin-top:4px}
+.book .blurb{font-size:.98rem;line-height:1.5;margin-top:12px;text-wrap:pretty}
+.book .go{font-size:.92rem;color:var(--muted);margin-top:12px}
+.book .go u{color:var(--pen);text-underline-offset:4px}
+.intro{font:400 var(--step1)/1.4 var(--serif);font-variation-settings:"SOFT" 100;max-width:46ch;margin:-12px 0 clamp(36px,5vw,64px);text-wrap:pretty}
 @media (max-width:900px){.books{grid-template-columns:repeat(4,minmax(220px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:12px;margin-inline:calc(max(20px,env(safe-area-inset-left,0px)) * -1);padding-inline:max(20px,env(safe-area-inset-left,0px));scrollbar-width:none}.book{scroll-snap-align:start}.books::-webkit-scrollbar{display:none}}
 .swipe-hint{display:none;color:var(--muted);font-size:.92rem;margin-top:6px}
 @media (max-width:900px){.swipe-hint{display:block}}
@@ -582,12 +586,12 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
 <div class="notice" role="note">Design preview with sample products. Nothing here can be bought. <a href="../">Compare directions</a></div>
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="#" aria-label="mininmum home"><img src="../assets/img/logo.png" alt="mininmum" width="117" height="22"></a>
+    <a class="logo" href="#" aria-label="MiniNMum home"><img src="../assets/img/logo.png" alt="MiniNMum" width="117" height="22"></a>
     <nav class="pill" aria-label="Main">
       <a href="#shop" data-nav="shop">Shop</a>
       <a href="#fabric" data-nav="fabric">Fabric</a>
       <a href="#size-guide" data-nav="size-guide">Size guide</a>
-      <a href="#about" data-nav="about">About</a>
+      <a href="#about" data-nav="about">Our story</a>
     </nav>
     <div class="right">
       <button class="pbtn menu-btn" type="button" id="menuBtn" aria-haspopup="dialog">Menu</button>
@@ -603,9 +607,9 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
   <div class="wrap">
     <p class="gn" aria-label="Goodnight."><span>Goodnight</span><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M64 6a46 46 0 1 0 30 76A38 38 0 1 1 64 6z"/></svg></p>
     <div class="foot">
-      <div><img src="../assets/img/logo.png" alt="mininmum" width="117" height="22"><p>Pajama sets for children aged 2 to 6, with a bedtime story in every print. From Singapore.</p></div>
+      <div><img src="../assets/img/logo.png" alt="MiniNMum" width="117" height="22"><p>Created by Sweety Gupta, MiniNMum is a Singapore-first brand for kids and mums, beginning with sleepwear. Every print has a little bedtime story inside.</p></div>
       <div><b>Shop</b><ul><li><a href="#shop">All sets</a></li><li><a href="#size-guide">Size guide</a></li><li><a href="#fabric">Fabric</a></li></ul></div>
-      <div><b>mininmum</b><ul><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li><li><a href="https://mininmum.com/listen/hen-farm-house" target="_blank" rel="noopener">Listen to a story</a></li></ul></div>
+      <div><b>MiniNMum</b><ul><li><a href="#about">Our story</a></li><li><a href="#contact">Contact</a></li><li><a href="https://mininmum.com/listen/hen-farm-house" target="_blank" rel="noopener">Listen to a story</a></li></ul></div>
     </div>
   </div>
 </footer>
@@ -624,8 +628,8 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
   </div>
 </dialog>
 <dialog class="menu-sheet" id="menu" aria-label="Menu">
-  <div class="drawer-head"><img src="../assets/img/logo.png" alt="mininmum" width="117" height="22"><button class="xbtn" type="button" data-close style="color:inherit">Close</button></div>
-  <nav aria-label="Mobile"><a href="#" style="--i:0">Home</a><a href="#shop" style="--i:1">Shop all sets</a><a href="#fabric" style="--i:2">Fabric</a><a href="#size-guide" style="--i:3">Size guide</a><a href="#about" style="--i:4">About</a><a href="#contact" style="--i:5">Contact</a></nav>
+  <div class="drawer-head"><img src="../assets/img/logo.png" alt="MiniNMum" width="117" height="22"><button class="xbtn" type="button" data-close style="color:inherit">Close</button></div>
+  <nav aria-label="Mobile"><a href="#" style="--i:0">Home</a><a href="#shop" style="--i:1">Shop all sets</a><a href="#fabric" style="--i:2">Fabric</a><a href="#size-guide" style="--i:3">Size guide</a><a href="#about" style="--i:4">Our story</a><a href="#contact" style="--i:5">Contact</a></nav>
 </dialog>
 <dialog class="modal" id="sizeModal" aria-labelledby="sgTitle">
   <div class="drawer-head" style="padding-top:16px"><h2 id="sgTitle">Size guide</h2><button class="xbtn" type="button" data-close>Close</button></div>
@@ -720,10 +724,10 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
   const book = (p, opts = {}) => {
     const im = heroImg(p), t = tileOf(p);
     const H = opts.h || "h3";
-    return `<a class="book" href="#product/${p.handle}" data-shared data-cursor="Open" aria-label="${esc(p.title)}, ${esc(p.style.toLowerCase())}, ${p.sleeve.toLowerCase()}, price at launch" style="--g:${p.colour.hex}">
+    return `<a class="book" href="#product/${p.handle}" data-shared data-cursor="Open" ${opts.rich ? "" : `aria-label="${esc(p.title)}, ${esc(p.style.toLowerCase())}, ${p.sleeve.toLowerCase()}, price at launch"`} style="--g:${p.colour.hex}">
       <div class="b3d"><div class="b-inside" style="background-image:url(${t.small})"><span>a story inside</span></div>
         <div class="b-cover"><img src="${opts.small ? im.small : im.src}" alt="${esc(im.alt)}" loading="lazy" decoding="async" style="object-position:${im.focus}"><span class="b-label">${esc(p.title)}</span></div></div>
-      <div><${H}>${esc(p.title)}</${H}><p class="meta">${esc(p.style)} · ${p.sleeve.toLowerCase()} · price at launch</p>${opts.first ? `<p class="first">“${esc(p.story[0])}”</p>` : ""}</div></a>`;
+      <div><${H}>${esc(p.title)}</${H}><p class="meta">${esc(p.style)} · ${p.sleeve.toLowerCase()} · price at launch</p>${opts.first ? `<p class="first">“${esc(p.story[0])}”</p>` : ""}${opts.rich ? `<p class="blurb">${esc(p.summary)}</p><p class="go">Planned sizes ${SIZES[0]} to ${SIZES[SIZES.length - 1]} <span aria-hidden="true">·</span> <u>Read the story</u></p>` : ""}</div></a>`;
   };
   const sizeTable = () => `<p>${esc(sizeChart.note)}</p><div class="table-wrap"><table><thead><tr><th scope="col">Measurement</th>${SIZES.map((s) => `<th scope="col">${s}</th>`).join("")}</tr></thead><tbody>${sizeChart.rows.map((r) => `<tr><th scope="row">${r.label}</th>${r.values.map((v) => `<td>${v} cm</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
   const pageHero = (kicker, title, sub, note) => `<header class="page-hero wrap"><p class="kicker">${kicker}</p><h1 data-split style="margin-top:14px">${title}</h1>${sub ? `<p class="sub">${sub}</p>` : ""}${note ? `<p class="hand" aria-hidden="true">${note}</p>` : ""}</header>`;
@@ -738,12 +742,12 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
       const sp = (cls) => `<div class="ph ${cls}" aria-hidden="true"><div class="ph-in"><svg viewBox="0 0 24 24" class="spark" style="width:100%">${SPARK}</svg></div></div>`;
       return `
       <section class="hero wrap" id="hero">
-        <div class="hero-meta"><p class="kicker">Pajama sets · ages 2 to 6 · Singapore</p><p class="kicker">No. 01 · the first collection</p></div>
+        <div class="hero-meta"><p class="kicker">Sleepwear for little ones · Singapore-first</p><p class="kicker">No. 01 · four prints to begin</p></div>
         <div class="hero-mid">
           <h1 class="hero-title" id="heroTitle">
-            <span class="ln"><span style="--i:0">Every print</span></span>
-            <span class="ln"><span style="--i:1">is a <em>bedtime<svg class="uline" viewBox="0 0 300 30" preserveAspectRatio="none" aria-hidden="true"><path d="M6 20C70 9 160 6 294 13M50 26c80-7 150-7 210-3"/></svg></em></span></span>
-            <span class="ln"><span style="--i:2">story.</span></span>
+            <span class="ln"><span style="--i:0">Little stories.</span></span>
+            <span class="ln"><span style="--i:1"><em>Softer<svg class="uline" viewBox="0 0 300 30" preserveAspectRatio="none" aria-hidden="true"><path d="M6 20C70 9 160 6 294 13M50 26c80-7 150-7 210-3"/></svg></em></span></span>
+            <span class="ln"><span style="--i:2">evenings.</span></span>
           </h1>
           <p class="hand note n1" aria-hidden="true">read one before<br>lights out<svg viewBox="0 0 62 44"><path d="M8 4c4 20 20 32 46 34M44 30l10 8-12 4"/></svg></p>
           <div class="collage">
@@ -754,10 +758,18 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
           </div>
         </div>
         <div class="hero-foot">
-          <div><p class="lede">Soft bamboo pajama sets with a little story drawn into every print. Choose tonight's story, then choose the size.</p>
-            <div class="ctas"><button class="btn" type="button" data-scroll="#tonight">Read tonight's story <span class="arr" aria-hidden="true">↓</span></button><a class="btn ghost" href="#shop">Shop all four sets</a></div></div>
-          <p class="cue hand" aria-hidden="true"><svg viewBox="0 0 100 100" style="fill:var(--warm)">${MOON}</svg>scroll, and the lights go down</p>
+          <div><p class="lede">Thoughtful sleepwear for the quiet moments that bring us closer. Four first pajama sets, each with a little bedtime story drawn into the print.</p>
+            <div class="ctas"><button class="btn" type="button" data-scroll="#shelf">Discover MiniNMum <span class="arr" aria-hidden="true">↓</span></button><button class="btn ghost" type="button" data-scroll="#tonight">Read tonight's story</button></div></div>
+          <p class="cue hand" aria-hidden="true"><svg viewBox="0 0 100 100" style="fill:var(--warm)">${MOON}</svg>four stories, just below</p>
         </div>
+      </section>
+
+      <section class="sec wrap" id="shelf" aria-labelledby="shelfTitle">
+        <div class="sec-head"><h2 id="shelfTitle">Four sets to begin.<br><em>Each one is a bedtime story.</em><sup>(04)</sup></h2><p>Hover a cover to peek at the print inside, or open a set to read its story.</p></div>
+        <p class="intro">MiniNMum begins with the small rituals of home: a favourite story, a familiar cuddle and the comfort of winding down together. Our first collection brings gentle prints and considered details to these everyday moments.</p>
+        <div class="books">${products.map((p) => book(p, { rich: true })).join("")}</div>
+        <p class="swipe-hint">Swipe along the shelf to see all four.</p>
+        <p style="margin-top:clamp(28px,4vw,48px)"><a class="btn ghost" href="#shop">Shop all four sets <span class="arr" aria-hidden="true">→</span></a></p>
       </section>
 
       <section class="night" id="tonight" aria-labelledby="stTitle">
@@ -773,7 +785,7 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
           </svg>
           <div class="wrap st-top">
             <div class="st-tabs" role="group" aria-label="Choose tonight's story">${products.map((p, i) => `<button class="st-tab" type="button" aria-pressed="${i === 0}" data-i="${i}" style="--sw:${p.colour.hex}"><i aria-hidden="true"></i><span>${esc(p.title)}</span></button>`).join("")}</div>
-            <button class="skip" type="button" data-scroll="#shelf">Skip the story</button>
+            <button class="skip" type="button" data-scroll="#morning">Skip the story</button>
           </div>
           <div class="wrap st-in">
             <div class="st-text">
@@ -790,37 +802,32 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
       </section>
 
       <section class="dawn" aria-label="Fit, fabric and fashion" data-tone="dark" data-split=".4">
-        ${marquee("a", ["Sleep tight", "<em>a story in every print</em>", "Goodnight, little one", "<em>ages 2 to 6</em>"])}
+        ${marquee("a", ["Sleep tight", "<em>a story in every print</em>", "Goodnight, little one", "<em>sweet dreams</em>"])}
         <p class="hand">…and in the morning, another story is waiting on the shelf.</p>
         ${marquee("b", ["Fit", "<em>Fabric</em>", "Fashion", "<em>bamboo jersey</em>", "Fit", "<em>Fabric</em>", "Fashion"])}
       </section>
 
-      <section class="sec wrap" id="shelf">
-        <div class="sec-head"><h2>Pick a book.<br><em>Each one is a pajama set.</em><sup>(04)</sup></h2><p>Four prints, four shapes, each in sizes 2–3Y to 5–6Y. Hover a cover to peek at the print inside.</p></div>
-        <div class="books">${products.map((p) => book(p)).join("")}</div>
-        <p class="swipe-hint">Swipe along the shelf to see all four.</p>
-      </section>
-
-      <section class="band" aria-labelledby="bandTitle">
+      <section class="band" id="morning" aria-labelledby="bandTitle">
         <div class="band-media"><img src="${STOCK}reading-together.webp" srcset="${STOCK}reading-together-s.webp 640w, ${STOCK}reading-together.webp 1600w" sizes="100vw" alt="A father lying beside his young son on a bed, holding up a picture book to read" loading="lazy" decoding="async"><span class="stock-tag">Stock photo · placeholder</span></div>
-        <div class="band-copy wrap"><p class="hand">the best part of the day</p><h2 id="bandTitle">Ten to twelve hours a day, <em>in their pajamas.</em></h2></div>
+        <div class="band-copy wrap"><p class="hand">the best part of the day</p><h2 id="bandTitle" style="max-width:17ch">The little ones, the mums <em>and the moments they share.</em></h2></div>
       </section>
 
       <section class="sec wrap" style="padding-top:0">
-        <div class="sec-head"><h2>How we make them</h2><p>Children spend ten to twelve hours a day in their pajamas. Every set starts with three things.</p></div>
+        <div class="sec-head"><h2>How we make them</h2><p>Fit, Fabric and Fashion: the three things we think about before a set reaches the shelf.</p></div>
         <div class="cards">
-          <article class="card" style="--i:0;--bg:#FBF0D9"><div class="txt"><span class="num">01</span><h3>Fit.</h3><p>A comfort fit for ages two to six: never tight, never baggy. The size is printed inside, so there is no tag at the neck.</p><p class="hand">room to tumble, nothing to scratch</p></div><div class="pic"><img class="reveal" src="${IMG}hen-boy-l.webp" alt="Boy reading in an armchair in a short pajama set" loading="lazy" style="object-position:50% 35%"></div></article>
-          <article class="card" style="--i:1;--bg:#E3EEF4"><div class="txt"><span class="num">02</span><h3>Fabric.</h3><p>Our first sets are planned in a soft bamboo viscose jersey, chosen for the way it feels, falls and breathes. <span class="tag">Working spec</span></p><div class="spec"><b>95%</b><b>5%</b><b>210</b><span>bamboo viscose</span><span>spandex</span><span>GSM</span></div><p><a class="link" href="#fabric">Read the fabric story</a></p></div><div class="pic"><img class="reveal" src="${STOCK}duvet-blue.webp" alt="Soft ice-blue fabric folds" loading="lazy"><span class="stock-tag">Stock photo · placeholder</span></div></article>
-          <article class="card" style="--i:2;--bg:#F8E1D6"><div class="txt"><span class="num">03</span><h3>Fashion.</h3><p>Each print is drawn as a small scene with a story to read at bedtime, in calm colours that look lovely folded on a shelf.</p><p class="hand">hens, skaters, a butterfly and a tiger</p></div><div class="pic"><img class="reveal" src="${IMG}butterfly-girl-l.webp" alt="Girl folding paper boats in the Picnic with Butterfly set" loading="lazy" style="object-position:50% 28%"></div></article>
+          <article class="card" style="--i:0;--bg:#FBF0D9"><div class="txt"><span class="num">01</span><h3>Fit.</h3><p>A thoughtful, comfortable fit planned for ages two to six, with room to play and settle. The size is printed inside, so there is no tag at the neck. Fits are being finalised on samples before launch.</p><p class="hand">room to tumble, nothing to scratch</p></div><div class="pic"><img class="reveal" src="${IMG}hen-boy-l.webp" alt="Boy reading in an armchair in a short pajama set" loading="lazy" style="object-position:50% 35%"></div></article>
+          <article class="card" style="--i:1;--bg:#E3EEF4"><div class="txt"><span class="num">02</span><h3>Fabric.</h3><p>Our first sets are planned in a soft bamboo viscose jersey, chosen for the way it feels and falls. <span class="tag">Working spec</span></p><div class="spec"><b>95%</b><b>5%</b><b>210</b><span>bamboo viscose</span><span>spandex</span><span>GSM</span></div><p><a class="link" href="#fabric">Read the fabric story</a></p></div><div class="pic"><img class="reveal" src="${STOCK}duvet-blue.webp" alt="Soft ice-blue fabric folds" loading="lazy"><span class="stock-tag">Stock photo · placeholder</span></div></article>
+          <article class="card" style="--i:2;--bg:#F8E1D6"><div class="txt"><span class="num">03</span><h3>Fashion.</h3><p>A little imagination in the details. Each print opens a small world to explore, with a short story to read together at bedtime, in calm colours that look lovely folded on a shelf.</p><p class="hand">hens, skaters, a butterfly and a tiger</p></div><div class="pic"><img class="reveal" src="${IMG}butterfly-girl-l.webp" alt="Girl folding paper boats in the Picnic with Butterfly set" loading="lazy" style="object-position:50% 28%"></div></article>
         </div>
       </section>
 
       <section class="sec wrap letter-sec">
         <figure class="polaroid up" style="margin:0"><span class="tape" aria-hidden="true"></span><img src="${IMG}hen-lifestyle-l.webp" alt="Two children in matching Hen Farm House short sets at a wooden bench" loading="lazy" style="object-position:50% 30%"><figcaption>the first prints</figcaption></figure>
         <div class="letter up">
-          <p class="kicker">Why mininmum began</p>
-          <blockquote style="margin-top:18px">“Those ten to twelve hours deserve fabric, fit and design as <em>considered</em> as anything else they wear.”</blockquote>
-          <p>It began with a familiar frustration: searching, again and again, for sleepwear that truly felt right on a child. Sets that fit poorly. Fabric that itched. mininmum is the answer: a pajama label focused on softness, breathability and quietly beautiful design.</p>
+          <p class="kicker">Why MiniNMum began</p>
+          <blockquote style="margin-top:18px">“The clothes we live in most should never feel like an <em>afterthought.</em>”</blockquote>
+          <p>For little ones and mums, comfort is found in soft fabrics, thoughtful fits and the quiet joy of feeling beautifully put together, even in the most relaxed moments. We're beginning at bedtime, where some of family life's gentlest moments unfold.</p>
+          <p style="margin-top:12px"><a class="link" href="#about">Read our story</a></p>
           <span class="hand sig">Sweety Gupta, founder</span>
           <a class="listen" href="https://mininmum.com/listen/hen-farm-house" target="_blank" rel="noopener"><img src="${IMG}hen-tile-s.webp" alt="" loading="lazy" width="56" height="56"><span><b>The Hen Farm House is also a board book</b><small>Listen to it read aloud on mininmum.com</small></span><span class="play" aria-hidden="true">▶</span></a>
         </div>
@@ -828,7 +835,7 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
     },
 
     shop() {
-      return `${pageHero("The shelf", 'All sets<sup>(04)</sup>', "Four prints, each in its own shape. Every set comes in all four sizes, so choose by story and sleeve length.", "every one has a story inside")}
+      return `${pageHero("The first collection", 'All sets<sup>(04)</sup>', "Four prints to begin, each in its own shape and each with a bedtime story inside. Choose by story and sleeve length: every set is planned in sizes 2–3Y to 5–6Y.", "every one has a story inside")}
       <div class="wrap">
         <div class="filters" role="group" aria-label="Filter sets">
           <div class="fgroup" data-group="sleeve"><span>Sleeve</span>${["All", "Short sleeve", "Long sleeve"].map((s, i) => `<button class="chip" type="button" aria-pressed="${i === 0}" data-v="${s}">${s}</button>`).join("")}</div>
@@ -883,43 +890,48 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
     },
 
     about() {
-      return `${pageHero("About", "A pajama house from Singapore", "", "made for the hours that matter most")}
+      return `${pageHero("Our story", "Beginning at bedtime", "", "made for the moments they share")}
       <div class="wrap">
         <div class="wide-img"><img class="reveal" src="${STOCK}bedtime-hide.webp" alt="A child peeking out from under a cream duvet" style="object-position:50% 45%"><span class="stock-tag">Stock photo · placeholder</span></div>
-        <div class="read"><aside><p class="kicker">Our story</p><p class="hand" style="margin-top:12px">it started with a search for pajamas that felt right</p></aside><div class="body">
-          <p>It began with a familiar frustration: searching for sleepwear that truly felt right on a child. Sets that fit poorly. Fabric that itched. Quality that disappointed, or prices that did not reflect what was inside.</p>
-          <p>Children spend ten to twelve hours of every day in their pajamas. mininmum is being built around one belief: those hours deserve fabric, fit and design as considered as anything else they wear.</p>
+        <div class="read"><aside><p class="kicker">Our story</p><p class="hand" style="margin-top:12px">for the little ones, the mums and the moments they share</p></aside><div class="body">
+          <p>MiniNMum began with a simple belief: the clothes we live in most should never feel like an afterthought. For little ones and mums, comfort is found in soft fabrics, thoughtful fits and the quiet joy of feeling beautifully put together, even during the most relaxed moments.</p>
+          <p>We're beginning at bedtime, where some of family life's gentlest moments unfold. Our sleepwear brings together feel-good fabrics, considered fits and story-led designs, created to make everyday routines feel a little more special.</p>
+          <p>MiniNMum is made for the little ones, the mums and the moments they share.</p>
+          <h2>Who is behind it</h2>
+          <p>MiniNMum is created by Sweety Gupta. It is a Singapore-first brand for kids and mums, beginning with sleepwear for young children.</p>
           <h2>What guides every set</h2>
-          <dl class="facts"><dt>Fit</dt><dd>Comfortable proportions for ages two to six.</dd><dt>Fabric</dt><dd>Bamboo at the heart of the first collection.</dd><dt>Fashion</dt><dd>Calm colours and prints with a story to read.</dd></dl>
+          <dl class="facts"><dt>Fit</dt><dd>Thoughtful, comfortable proportions, finalised on samples before launch.</dd><dt>Fabric</dt><dd>Carefully considered, starting with a soft bamboo jersey.</dd><dt>Fashion</dt><dd>A little imagination in the details: every print opens a small world, with a story to read together.</dd></dl>
+          <h2>The first four stories</h2>
+          <ul>${products.map((q) => `<li><a class="link" href="#product/${q.handle}">${esc(q.title)}</a>, ${esc(q.style.toLowerCase())}</li>`).join("")}</ul>
           <h2>Where we are</h2>
-          <p>We are preparing to launch in Singapore, working with fabric mills and makers who share our standard. The sets on this page are design samples for review.</p>
+          <p>We are preparing for launch. The sets, photos and details on this page are design samples for review. Final fabrics, sizes and prices will be confirmed before anything goes on sale.</p>
           <p style="margin-top:28px"><a class="btn" href="#contact">Get in touch <span class="arr" aria-hidden="true">→</span></a></p>
         </div></div>
       </div>`;
     },
 
     fabric() {
-      return `${pageHero("Fabric story", "Where every set begins", "Before the print and before the first stitch, there is the fabric.", "soft enough for ten to twelve hours")}
+      return `${pageHero("Fabric story", "Where every set begins", "Before the print and before the first stitch, there is the fabric.", "chosen for how it feels")}
       <div class="wrap">
         <div class="wide-img"><img class="reveal" src="${STOCK}linen-cream.webp" alt="Folds of soft cream fabric in natural light" style="object-position:50% 40%"><span class="stock-tag">Stock photo · placeholder</span></div>
         <div class="read"><aside><p class="kicker">Bamboo, first</p><p class="hand" style="margin-top:12px">working spec, confirmed with our mill before launch</p></aside><div class="body">
           <h2>Bamboo, first</h2>
-          <p>Our first collection is planned in a bamboo viscose jersey. We chose it for the way it feels, falls and breathes through long hours of sleep.</p>
+          <p>Our first collection is planned in a bamboo viscose jersey. We chose it for the way it feels and falls.</p>
           <div class="bigstats"><div><b>95%</b><span>bamboo viscose</span></div><div><b>5%</b><span>spandex</span></div><div><b>210</b><span>GSM, about</span></div></div>
-          <dl class="facts"><dt>Print</dt><dd>Reactive digital print</dd><dt>Status</dt><dd>Working specification, being confirmed with our mill</dd></dl>
-          <h2>Still exploring</h2>
-          <p><b style="font-weight:500">Tencel modal</b> for its silky hand-feel, and <b style="font-weight:500">bamboo cotton</b> for everyday durability. Both are in exploration and may arrive in later editions.</p>
+          <dl class="facts"><dt>Status</dt><dd>Working specification, being confirmed with our supplier</dd></dl>
+          <h2>What we will share before launch</h2>
+          <p>Each set's confirmed composition, fabric weight and care instructions. We only describe our fabric with claims we can show evidence for, so you will not find vague promises here.</p>
           <h2>Details you will notice</h2>
           <ul>${products[0].construction.map((c) => `<li>${c}</li>`).join("")}<li>Waist bows are made from the same fabric and stitched in place</li></ul>
           <h2>Caring for bamboo</h2>
           <ul>${products[0].care.map((c) => `<li>${c}</li>`).join("")}</ul>
-          <p style="margin-top:20px" class="demo-line">We will publish confirmed fabric details and any testing with each product before launch.</p>
+          <p style="margin-top:20px" class="demo-line">Draft care guidance. Final care instructions are confirmed with the fabric before launch.</p>
         </div></div>
       </div>`;
     },
 
     "size-guide"() {
-      return `${pageHero("Size guide", "Finding the right size", "Sets come in four sizes for ages two to six.", "measure a top that already fits")}
+      return `${pageHero("Size guide", "Finding the right size", "Sets are planned in four sizes for ages two to six. The chart below is a draft while fits are finalised on samples.", "measure a top that already fits")}
       <div class="wrap"><div class="read"><aside><p class="kicker">Measurements</p><p class="hand" style="margin-top:12px">all lengths in centimetres</p></aside><div class="body">${sizeTable()}
         <h2>How to compare</h2><p>Lay a top your child wears often on a flat surface. Measure from the highest point of the shoulder down to the hem, and compare with the top length above. Do the same for pants, from waistband to hem.</p>
         <h2>Between sizes?</h2><p>Use the lengths above with a set that already fits well. If you are unsure, message us and we will help.</p>
@@ -1090,7 +1102,7 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
   }, true);
   const idleIO = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle("idle", !e.isIntersecting)));
   const watchIdle = () => { idleIO.disconnect(); $$(".hero,.night,.dawn,.pstory,footer").forEach((el) => idleIO.observe(el)); };
-  const TITLES = { shop: "Shop", about: "About", fabric: "Fabric", "size-guide": "Size guide", contact: "Contact" };
+  const TITLES = { shop: "Shop", about: "Our story", fabric: "Fabric", "size-guide": "Size guide", contact: "Contact" };
   MIN.onRoute((r) => MIN.transition((shared) => {
     offs.splice(0).forEach((f) => f());
     $("#cursor").classList.remove("big");
@@ -1099,7 +1111,7 @@ dialog::backdrop{background:rgba(27,30,58,.45);backdrop-filter:blur(4px)}
     $$("[data-split]", main).forEach((h) => MIN.splitWords(h));
     watchIdle();
     $$("[data-nav]").forEach((a) => a.dataset.nav === r.name ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
-    document.title = (r.name === "product" ? r.product.title + " · " : r.name === "home" ? "" : TITLES[r.name] + " · ") + "mininmum · Story Shelf";
+    document.title = (r.name === "product" ? r.product.title + " · " : r.name === "home" ? "" : TITLES[r.name] + " · ") + "MiniNMum · Story Shelf";
     window.scrollTo(0, 0);
     if (r.name !== "home") main.focus({ preventScroll: true });
     if (r.name === "home") initHome();
